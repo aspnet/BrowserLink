@@ -3,14 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microsoft.VisualStudio.Web.BrowserLink.Loader", "src\Microsoft.VisualStudio.Web.BrowserLink.Loader\Microsoft.VisualStudio.Web.BrowserLink.Loader.xproj", "{C31202E6-FC58-4354-B2D2-ACD1B3118C05}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7AC709A9-E84C-4C8F-8185-8A3D01DD7D7C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{24D02C4B-DF8B-4D12-9F28-566302D585C8}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7AC709A9-E84C-4C8F-8185-8A3D01DD7D7C}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microsoft.VisualStudio.Web.BrowserLink.Loader", "src\Microsoft.VisualStudio.Web.BrowserLink.Loader\Microsoft.VisualStudio.Web.BrowserLink.Loader.xproj", "{C31202E6-FC58-4354-B2D2-ACD1B3118C05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
