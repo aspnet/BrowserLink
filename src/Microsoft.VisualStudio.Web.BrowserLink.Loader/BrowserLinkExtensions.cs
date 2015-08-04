@@ -8,6 +8,12 @@ namespace Microsoft.AspNet.Builder
 {
     public static class BrowserLinkLoaderExtensions
     {
+        /// <summary>
+        /// Configures the application to connect with Visual Studio using
+        /// Browser Link
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
         public static IApplicationBuilder UseBrowserLink(this IApplicationBuilder app)
         {
             try
