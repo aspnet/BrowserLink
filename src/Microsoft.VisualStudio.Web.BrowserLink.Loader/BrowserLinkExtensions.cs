@@ -10,7 +10,7 @@ namespace Microsoft.AspNet.Builder
     {
         /// <summary>
         /// Configures the application to connect with Visual Studio using
-        /// Browser Link
+        /// Browser Link.
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
