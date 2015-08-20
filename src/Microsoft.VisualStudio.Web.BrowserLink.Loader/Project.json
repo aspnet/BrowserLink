@@ -7,6 +7,7 @@
         "Microsoft.Dnx.Runtime.Abstractions": "1.0.0-*"
     },
     "frameworks": {
+        "dnx451": { },
         "dnxcore50": {
             "dependencies": {
                 "Microsoft.Win32.Registry": "4.0.0-*",
