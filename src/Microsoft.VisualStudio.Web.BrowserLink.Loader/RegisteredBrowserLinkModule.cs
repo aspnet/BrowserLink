@@ -4,7 +4,7 @@
 using System;
 using System.Reflection;
 using Microsoft.AspNet.Builder;
-using Microsoft.Dnx.Runtime;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace Microsoft.VisualStudio.Web.BrowserLink.Loader
 {
