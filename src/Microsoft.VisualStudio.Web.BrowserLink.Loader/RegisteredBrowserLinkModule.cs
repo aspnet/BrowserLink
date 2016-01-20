@@ -1,10 +1,9 @@
-// Copyright (c) .NET Foundation. All rights reserved.
+﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.PlatformAbstractions;
 
 namespace Microsoft.VisualStudio.Web.BrowserLink.Loader
 {
@@ -106,22 +105,12 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Loader
 
         private bool LoadRuntimeAssembly(IApplicationBuilder app, out Assembly runtimeAssembly)
         {
-            IAssemblyLoadContextAccessor loadContextAccessor = app.ApplicationServices.GetService(typeof(IAssemblyLoadContextAccessor)) as IAssemblyLoadContextAccessor;
-            
-            if (loadContextAccessor != null) 
-            {
-                IAssemblyLoadContext loadContext = loadContextAccessor.GetLoadContext(this.GetType().GetTypeInfo().Assembly);
-                
-                if (loadContext != null)
-                {
-                    runtimeAssembly = loadContext.LoadFile(AssemblyPath);
-                      
-                    return runtimeAssembly != null;
-                }
-            }
-            
-            runtimeAssembly = null;
-            return false;
+#if DNX451
+            runtimeAssembly = Assembly.LoadFile(AssemblyPath);
+#else
+            runtimeAssembly = System.Runtime.Loader.AssemblyLoadContext.Default.LoadFromAssemblyPath(AssemblyPath);
+#endif
+            return runtimeAssembly != null;
         }
     }
 }
