@@ -1,10 +1,10 @@
-﻿{
+{
   "version": "14.0.0-*",
   "compilationOptions": {
     "warningsAsErrors": true
   },
   "dependencies": {
-    "Microsoft.AspNet.Http.Abstractions": "1.0.0-*",
+    "Microsoft.AspNetCore.Http.Abstractions": "1.0.0-*",
     "Microsoft.Extensions.FileProviders.Physical": "1.0.0-*",
     "Microsoft.Extensions.PlatformAbstractions": "1.0.0-*"
   },

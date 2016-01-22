@@ -4,7 +4,7 @@
 using System;
 using Microsoft.VisualStudio.Web.BrowserLink.Loader;
 
-namespace Microsoft.AspNet.Builder
+namespace Microsoft.AspNetCore.Builder
 {
     public static class BrowserLinkLoaderExtensions
     {
