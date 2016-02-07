@@ -6,7 +6,8 @@
   "dependencies": {
     "Microsoft.AspNetCore.Http.Abstractions": "1.0.0-*",
     "Microsoft.Extensions.FileProviders.Physical": "1.0.0-*",
-    "Microsoft.Extensions.PlatformAbstractions": "1.0.0-*"
+    "Microsoft.Extensions.PlatformAbstractions": "1.0.0-*",
+    "Microsoft.NETCore.Platforms": "1.0.1-*"
   },
   "frameworks": {
     "dnx451": { },
