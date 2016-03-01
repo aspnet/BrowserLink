@@ -1,4 +1,4 @@
-﻿// Copyright (c) .NET Foundation. All rights reserved.
+// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
@@ -27,7 +27,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Loader
         private static readonly string VersionName = "Version";
         private static readonly string TypeName = "ExtensionType";
 
-#if DNXCORE50
+#if NETSTANDARDAPP1_5
         private static readonly string PathName = "dnxcore50";
 #elif DNX451
         private static readonly string PathName = "dnx451";
