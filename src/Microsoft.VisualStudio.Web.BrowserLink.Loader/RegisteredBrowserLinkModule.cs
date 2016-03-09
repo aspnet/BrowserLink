@@ -105,7 +105,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Loader
 
         private bool LoadRuntimeAssembly(IApplicationBuilder app, out Assembly runtimeAssembly)
         {
-#if DNX451
+#if NET451
             runtimeAssembly = Assembly.LoadFile(AssemblyPath);
 #else
             runtimeAssembly = System.Runtime.Loader.AssemblyLoadContext.Default.LoadFromAssemblyPath(AssemblyPath);

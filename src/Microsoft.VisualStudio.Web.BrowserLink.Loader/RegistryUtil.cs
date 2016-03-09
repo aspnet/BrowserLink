@@ -13,8 +13,8 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Loader
     /// as follows:
     /// 
     /// [HKEY_LOCAL_MACHINE\(RegistryUtil.BrowserLinkRegistryKey)\(Unique-Name-For-Module)]
-    /// "dnxcore50"="Path\to\assembly\for\Core\CLR"
-    /// "dnx451"="Path\to\assembly\for\Desktop\CLR"
+    /// "netstandard1.5"="Path\to\assembly\for\Core\CLR"
+    /// "net451"="Path\to\assembly\for\Desktop\CLR"
     /// "ExtensionType"="Namespace.TypeName"
     /// "Version"="WTE Version"
     /// </summary>
@@ -27,9 +27,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Loader
         private static readonly string VersionName = "Version";
         private static readonly string TypeName = "ExtensionType";
 
-#if NETSTANDARDAPP1_5
+#if NETSTANDARD1_5
         private static readonly string PathName = "dnxcore50";
-#elif DNX451
+#elif NET451
         private static readonly string PathName = "dnx451";
 #endif
 
