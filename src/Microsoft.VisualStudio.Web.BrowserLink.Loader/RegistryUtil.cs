@@ -28,9 +28,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Loader
         private static readonly string TypeName = "ExtensionType";
 
 #if NETSTANDARD1_5
-        private static readonly string PathName = "dnxcore50";
+        private static readonly string PathName = "netstandard1.5";
 #elif NET451
-        private static readonly string PathName = "dnx451";
+        private static readonly string PathName = "net451";
 #endif
 
         /// <summary>
