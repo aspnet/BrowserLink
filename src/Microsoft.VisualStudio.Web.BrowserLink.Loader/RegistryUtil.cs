@@ -21,7 +21,11 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Loader
     internal static class RegistryUtil
     {
         // The key, under HKLM, where Browser Link modules are registered
-        private const string BrowserLinkRegistryKey = @"SOFTWARE\Microsoft\Browser Link";
+        private static readonly string[] BrowserLinkRegistryKeys = new string[]
+        {
+            @"SOFTWARE\Microsoft\Browser Link",
+            @"SOFTWARE\Wow6432Node\Microsoft\Browser Link"
+        };
 
         // Names of values under each registration key
         private static readonly string VersionName = "Version";
@@ -57,20 +61,23 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Loader
         {
             List<RegisteredBrowserLinkModule> runtimes = new List<RegisteredBrowserLinkModule>();
 
-            RegistryKey rootKey = Registry.LocalMachine.OpenSubKey(BrowserLinkRegistryKey);
-            if (rootKey != null)
+            foreach (string registryKeyPath in BrowserLinkRegistryKeys)
             {
-                foreach (string subKeyName in rootKey.GetSubKeyNames())
+                RegistryKey rootKey = Registry.LocalMachine.OpenSubKey(registryKeyPath);
+                if (rootKey != null)
                 {
-                    RegistryKey subKey = rootKey.OpenSubKey(subKeyName);
-
-                    if (subKey != null)
+                    foreach (string subKeyName in rootKey.GetSubKeyNames())
                     {
-                        RegisteredBrowserLinkModule runtime = ReadModuleInformation(subKeyName, subKey);
+                        RegistryKey subKey = rootKey.OpenSubKey(subKeyName);
 
-                        if (runtime != null)
+                        if (subKey != null)
                         {
-                            runtimes.Add(runtime);
+                            RegisteredBrowserLinkModule runtime = ReadModuleInformation(subKeyName, subKey);
+
+                            if (runtime != null)
+                            {
+                                runtimes.Add(runtime);
+                            }
                         }
                     }
                 }
