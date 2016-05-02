@@ -1,6 +1,6 @@
 {
   "version": "14.0.0-*",
-  "compilationOptions": {
+  "buildOptions": {
     "warningsAsErrors": true
   },
   "dependencies": {
