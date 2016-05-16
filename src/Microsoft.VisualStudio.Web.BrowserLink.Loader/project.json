@@ -1,7 +1,8 @@
 {
   "version": "14.0.0-*",
   "buildOptions": {
-    "warningsAsErrors": true
+    "warningsAsErrors": true,
+    "keyFile": "../../tools/Key.snk"
   },
   "dependencies": {
     "Microsoft.AspNetCore.Http.Abstractions": "1.0.0-*",
