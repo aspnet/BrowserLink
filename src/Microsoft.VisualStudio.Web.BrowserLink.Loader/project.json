@@ -1,8 +1,13 @@
 {
   "version": "14.0.0-*",
+  "description": "A middleware that supports creating a communication channel between the development environment and one or more web browsers.",
   "buildOptions": {
     "warningsAsErrors": true,
-    "keyFile": "../../tools/Key.snk"
+    "keyFile": "../../tools/Key.snk",
+    "xmlDoc": true,
+    "nowarn": [
+      "CS1591"
+    ]
   },
   "dependencies": {
     "Microsoft.AspNetCore.Http.Abstractions": "1.0.0-*",
