@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{24D02C4B-DF8B-4D12-9F28-566302D585C8}"
 	ProjectSection(SolutionItems) = preProject
@@ -11,6 +11,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7AC709A9-E84C-4C8F-8185-8A3D01DD7D7C}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microsoft.VisualStudio.Web.BrowserLink.Loader", "src\Microsoft.VisualStudio.Web.BrowserLink.Loader\Microsoft.VisualStudio.Web.BrowserLink.Loader.xproj", "{C31202E6-FC58-4354-B2D2-ACD1B3118C05}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microsoft.VisualStudio.Web.BrowserLink", "src\Microsoft.VisualStudio.Web.BrowserLink\Microsoft.VisualStudio.Web.BrowserLink.xproj", "{616F445C-7A41-4E61-98E3-1B70D70F9F09}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{7F6F47EA-CAF5-46E2-B29C-8B20291185B7}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microsoft.VisualStudio.Web.BrowserLink.Test", "test\Microsoft.VisualStudio.Web.BrowserLink.Test\Microsoft.VisualStudio.Web.BrowserLink.Test.xproj", "{96146399-2C42-4CAA-ABCD-CF1E0F000CEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,11 +28,21 @@ Global
 		{C31202E6-FC58-4354-B2D2-ACD1B3118C05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C31202E6-FC58-4354-B2D2-ACD1B3118C05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C31202E6-FC58-4354-B2D2-ACD1B3118C05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{616F445C-7A41-4E61-98E3-1B70D70F9F09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{616F445C-7A41-4E61-98E3-1B70D70F9F09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{616F445C-7A41-4E61-98E3-1B70D70F9F09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{616F445C-7A41-4E61-98E3-1B70D70F9F09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96146399-2C42-4CAA-ABCD-CF1E0F000CEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96146399-2C42-4CAA-ABCD-CF1E0F000CEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96146399-2C42-4CAA-ABCD-CF1E0F000CEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96146399-2C42-4CAA-ABCD-CF1E0F000CEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C31202E6-FC58-4354-B2D2-ACD1B3118C05} = {7AC709A9-E84C-4C8F-8185-8A3D01DD7D7C}
+		{616F445C-7A41-4E61-98E3-1B70D70F9F09} = {7AC709A9-E84C-4C8F-8185-8A3D01DD7D7C}
+		{96146399-2C42-4CAA-ABCD-CF1E0F000CEC} = {7F6F47EA-CAF5-46E2-B29C-8B20291185B7}
 	EndGlobalSection
 EndGlobal
