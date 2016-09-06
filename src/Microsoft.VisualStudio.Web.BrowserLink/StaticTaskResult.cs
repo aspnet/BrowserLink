@@ -13,7 +13,5 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
         public static readonly Task Complete = True;
 
         public static readonly Task<int> HttpInternalServerError = Task.FromResult(500);
-
-        public static readonly Task<int> Zero = Task.FromResult(0);
     }
 }
