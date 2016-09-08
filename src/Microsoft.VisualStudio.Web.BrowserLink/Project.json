@@ -14,7 +14,11 @@
   "dependencies": {
     "Microsoft.AspNetCore.Hosting.Abstractions": "1.0.0",
     "Microsoft.AspNetCore.Http.Abstractions": "1.0.0",
-    "Microsoft.Extensions.FileProviders.Physical": "1.0.0"
+    "Microsoft.Extensions.FileProviders.Physical": "1.0.0",
+    "Microsoft.Extensions.TaskCache.Sources": {
+      "version": "1.1.0-*",
+      "type": "build"
+    }
   },
   "frameworks": {
     "net451": {},
