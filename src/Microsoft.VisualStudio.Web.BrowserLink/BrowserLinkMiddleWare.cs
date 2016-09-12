@@ -23,6 +23,8 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
         private RequestDelegate _next;
         private string _applicationPath;
 
+        private const string headerIfNoneMatch = "If-None-Match";
+
         internal BrowserLinkMiddleware(string applicationPath, RequestDelegate next)
         {
             _applicationPath = applicationPath;
@@ -44,6 +46,11 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             }
             else
             {
+                if (context.Request.Headers.ContainsKey(headerIfNoneMatch) && BrowserLinkMiddleWareUtil.GetRequestPort(context.Request.Headers) != -1)
+                {
+                    BrowserLinkMiddleWareUtil.RemoveETagAndTimeStamp(context.Request.Headers);
+                }
+
                 return ExecuteWithoutFilter(context);
             }
         }
@@ -67,6 +74,14 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
         private async Task ExecuteWithFilter(IHttpSocketAdapter injectScriptSocket, string requestId, HttpContext httpContext)
         {
             ScriptInjectionFilterContext filterContext = new ScriptInjectionFilterContext(httpContext);
+            int currentPort = -1;
+
+            PreprocessRequestHeader(httpContext, ref currentPort);
+
+            if (currentPort == -1)
+            {
+                BrowserLinkMiddleWareUtil.RemoveETagAndTimeStamp(httpContext.Request.Headers);
+            }
 
             using (ScriptInjectionFilterStream filter = new ScriptInjectionFilterStream(injectScriptSocket, filterContext))
             {
@@ -74,6 +89,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
                 httpContext.Response.OnStarting(delegate ()
                 {
                     httpContext.Response.ContentLength = null;
+                    BrowserLinkMiddleWareUtil.AddToETag(httpContext.Response.Headers, currentPort);
 
                     return StaticTaskResult.True;
                 });
@@ -206,6 +222,19 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             }
 
             return true;
+        }
+
+        private void PreprocessRequestHeader(HttpContext httpContext, ref int currentPort)
+        {
+            if (httpContext.Request.Headers.ContainsKey(headerIfNoneMatch))
+            {
+                HostConnectionData connectionData;
+
+                if (GetHostConnectionData(_applicationPath, out connectionData))
+                {
+                    currentPort = BrowserLinkMiddleWareUtil.FilterRequestHeader(httpContext.Request.Headers, connectionData.ConnectionString);
+                }
+            }
         }
     }
 }
