@@ -2,14 +2,12 @@
 using System;
 using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.Net.Http.Headers;
-using Microsoft.Extensions.Primitives;
+using System.Collections.Generic;
 
 namespace Microsoft.VisualStudio.Web.BrowserLink
 {
     internal static class BrowserLinkMiddleWareUtil
     {
-        private const string headerIfNoneMatch = "If-None-Match";
-
         internal static int GetRequestPort(IHeaderDictionary headers)
         {
             RequestHeaders requestHeader = new RequestHeaders(headers);
@@ -52,23 +50,24 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
         internal static void DeletePortFromETag(IHeaderDictionary headers)
         {
             RequestHeaders requestHeader = new RequestHeaders(headers);
-            string newEtag = "";
+            string newETag = "";
+            IList<EntityTagHeaderValue> list = requestHeader.IfNoneMatch;
 
-            foreach(EntityTagHeaderValue value in requestHeader.IfNoneMatch)
+            foreach(EntityTagHeaderValue value in list)
             {
                 String[] strings = value.ToString().Split(':');
 
                 if (strings.Length >= 2)
                 {
-                    newEtag = strings[0] + "\"";
+                    newETag = strings[0] + "\"";
                     break;
                 }
             }
 
-            if (newEtag.Length > 0)
+            if (newETag.Length > 0)
             {
-                headers.Remove(headerIfNoneMatch);
-                headers.Add(headerIfNoneMatch, new StringValues(newEtag));
+                list[0] = new EntityTagHeaderValue(newETag);
+                requestHeader.IfNoneMatch = list;
             }
         }
 

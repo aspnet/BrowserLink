@@ -4,6 +4,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Headers;
 
 namespace Microsoft.VisualStudio.Web.BrowserLink
 {
@@ -22,8 +23,6 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
 
         private RequestDelegate _next;
         private string _applicationPath;
-
-        private const string headerIfNoneMatch = "If-None-Match";
 
         internal BrowserLinkMiddleware(string applicationPath, RequestDelegate next)
         {
@@ -46,7 +45,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             }
             else
             {
-                if (context.Request.Headers.ContainsKey(headerIfNoneMatch) && BrowserLinkMiddleWareUtil.GetRequestPort(context.Request.Headers) != -1)
+                RequestHeaders requestHeader = new RequestHeaders(context.Request.Headers); 
+
+                if (requestHeader.IfNoneMatch != null && BrowserLinkMiddleWareUtil.GetRequestPort(context.Request.Headers) != -1)
                 {
                     BrowserLinkMiddleWareUtil.RemoveETagAndTimeStamp(context.Request.Headers);
                 }
@@ -226,7 +227,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
 
         private void PreprocessRequestHeader(HttpContext httpContext, ref int currentPort)
         {
-            if (httpContext.Request.Headers.ContainsKey(headerIfNoneMatch))
+            RequestHeaders requestHeader = new RequestHeaders(httpContext.Request.Headers);
+
+            if (requestHeader.IfNoneMatch != null)
             {
                 HostConnectionData connectionData;
 
