@@ -47,9 +47,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             {
                 RequestHeaders requestHeader = new RequestHeaders(context.Request.Headers); 
 
-                if (requestHeader.IfNoneMatch != null && BrowserLinkMiddleWareUtil.GetRequestPort(context.Request.Headers) != -1)
+                if (requestHeader.IfNoneMatch != null && BrowserLinkMiddleWareUtil.GetRequestPort(requestHeader).Count != 0)
                 {
-                    BrowserLinkMiddleWareUtil.RemoveETagAndTimeStamp(context.Request.Headers);
+                    BrowserLinkMiddleWareUtil.RemoveETagAndTimeStamp(requestHeader);
                 }
 
                 return ExecuteWithoutFilter(context);
@@ -79,9 +79,11 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
 
             PreprocessRequestHeader(httpContext, ref currentPort);
 
+            RequestHeaders requestHeader = new RequestHeaders(httpContext.Request.Headers);
+
             if (currentPort == -1)
             {
-                BrowserLinkMiddleWareUtil.RemoveETagAndTimeStamp(httpContext.Request.Headers);
+                BrowserLinkMiddleWareUtil.RemoveETagAndTimeStamp(requestHeader);
             }
 
             using (ScriptInjectionFilterStream filter = new ScriptInjectionFilterStream(injectScriptSocket, filterContext))
@@ -90,7 +92,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
                 httpContext.Response.OnStarting(delegate ()
                 {
                     httpContext.Response.ContentLength = null;
-                    BrowserLinkMiddleWareUtil.AddToETag(httpContext.Response.Headers, currentPort);
+                    ResponseHeaders responseHeader = new ResponseHeaders(httpContext.Response.Headers);
+
+                    BrowserLinkMiddleWareUtil.AddToETag(responseHeader, currentPort);
 
                     return StaticTaskResult.True;
                 });
@@ -235,7 +239,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
 
                 if (GetHostConnectionData(_applicationPath, out connectionData))
                 {
-                    currentPort = BrowserLinkMiddleWareUtil.FilterRequestHeader(httpContext.Request.Headers, connectionData.ConnectionString);
+                    currentPort = BrowserLinkMiddleWareUtil.FilterRequestHeader(requestHeader, connectionData.ConnectionString);
                 }
             }
         }

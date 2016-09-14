@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
@@ -8,92 +7,112 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
 {
     internal static class BrowserLinkMiddleWareUtil
     {
-        internal static int GetRequestPort(IHeaderDictionary headers)
+        internal static List<int> GetRequestPort(RequestHeaders requestHeader)
         {
-            RequestHeaders requestHeader = new RequestHeaders(headers);
+            List<int> requestPortList = new List<int>();
 
-            foreach (EntityTagHeaderValue value in requestHeader.IfNoneMatch)
+            if (requestHeader.IfNoneMatch != null)
             {
-                string[] strings = value.ToString().Split(':');
-
-                if (strings.Length >= 2)
+                for (int index = 0; index < requestHeader.IfNoneMatch.Count; ++index)
                 {
-                    return Int32.Parse(strings[1].Substring(0, strings[1].Length - 1));
+                    string[] strings = requestHeader.IfNoneMatch[index].ToString().Split(':');
+
+                    if (strings.Length >= 2)
+                    {
+                        int port = -1;
+
+                        if (Int32.TryParse(strings[1].Substring(0, strings[1].Length - 1), out port))
+                        {
+                            requestPortList.Add(port);
+                        }
+                    }
                 }
             }
 
-            return -1;
+            return requestPortList;
         }
 
         internal static int GetCurrentPort(string connectionString)
         {
-            string[] strings1 = connectionString.Split(':');
-
-            if (strings1.Length >= 3)
+            try
             {
-                string[] strings2 = strings1[2].Split('/');
+                Uri uri = new Uri(connectionString);
 
-                return Int32.Parse(strings2[0]);
+                return uri.Port;
             }
-
-            return -1;
+            catch (UriFormatException)
+            {
+                return -1;
+            }
+            catch (ArgumentNullException)
+            {
+                return -1;
+            }
         }
 
-        internal static void RemoveETagAndTimeStamp(IHeaderDictionary headers)
+        internal static void RemoveETagAndTimeStamp(RequestHeaders requestHeader)
         {
-            RequestHeaders requestHeader = new RequestHeaders(headers);
-
             requestHeader.IfNoneMatch = null;
             requestHeader.IfModifiedSince = null;
         }
 
-        internal static void DeletePortFromETag(IHeaderDictionary headers)
+        internal static void DeletePortFromETag(RequestHeaders requestHeader)
         {
-            RequestHeaders requestHeader = new RequestHeaders(headers);
             string newETag = "";
             IList<EntityTagHeaderValue> list = requestHeader.IfNoneMatch;
 
-            foreach(EntityTagHeaderValue value in list)
+            for (int index = 0; index < list.Count; ++index)
             {
-                String[] strings = value.ToString().Split(':');
+                String[] strings = list[index].ToString().Split(':');
 
                 if (strings.Length >= 2)
                 {
                     newETag = strings[0] + "\"";
-                    break;
+                    list[index] = new EntityTagHeaderValue(newETag);
                 }
             }
 
-            if (newETag.Length > 0)
-            {
-                list[0] = new EntityTagHeaderValue(newETag);
-                requestHeader.IfNoneMatch = list;
-            }
+            requestHeader.IfNoneMatch = list;
         }
 
-        internal static void AddToETag(IHeaderDictionary headers, int port)
+        internal static void AddToETag(ResponseHeaders responseHeader, int port)
         {
-            ResponseHeaders responseHeader = new ResponseHeaders(headers);
-      
-            if (responseHeader.ETag != null)
+            if (responseHeader.ETag == null)
+            {
+                responseHeader.ETag = new EntityTagHeaderValue("\":" + port + "\"");
+            }
+            else
             {
                 string temp = responseHeader.ETag.ToString().Substring(0, responseHeader.ETag.ToString().Length - 1) + ":" + port + "\"";
                 responseHeader.ETag = new EntityTagHeaderValue(temp);
             }
         }
 
-        internal static int FilterRequestHeader(IHeaderDictionary headers, string connectionString)
+        internal static bool IfMatch(List<int> requestPortList, int currentPort)
         {
-            int requestPort = GetRequestPort(headers);
+            foreach (int port in requestPortList)
+            {
+                if (port == currentPort)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        internal static int FilterRequestHeader(RequestHeaders requestHeader, string connectionString)
+        {
+            List<int> requestPortList = GetRequestPort(requestHeader);
             int currentPort = GetCurrentPort(connectionString);
 
-            if (requestPort != currentPort)
+            if (!IfMatch(requestPortList, currentPort))
             {
-                RemoveETagAndTimeStamp(headers);
+                RemoveETagAndTimeStamp(requestHeader);
             }
             else
             {
-                DeletePortFromETag(headers);
+                DeletePortFromETag(requestHeader);
             }
 
             return currentPort;
