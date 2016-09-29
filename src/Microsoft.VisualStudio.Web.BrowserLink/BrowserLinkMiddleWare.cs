@@ -5,6 +5,8 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Headers;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.VisualStudio.Web.BrowserLink.Runtime;
 
 namespace Microsoft.VisualStudio.Web.BrowserLink
 {
@@ -98,6 +100,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
 
                     return StaticTaskResult.True;
                 });
+
+                IHttpSendFileFeature originalSendFile = httpContext.Features.Get<IHttpSendFileFeature>();
+                httpContext.Features.Set<IHttpSendFileFeature>(new SendFilesWrapper(originalSendFile, httpContext.Response));
 
                 using (AddPageExecutionListenerFeatureTo(httpContext, requestId))
                 {

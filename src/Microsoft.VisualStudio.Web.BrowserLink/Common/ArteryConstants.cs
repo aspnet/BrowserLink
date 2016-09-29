@@ -51,6 +51,22 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
         public const string RequestScheme = "Scheme";
 
         /// <summary>
+        /// Suffix added to the end of the instance file name to identify a
+        /// Version 2 instance file
+        /// </summary>
+        public const string Version2Suffix = ".v2";
+
+        // Keys for data in the instance file (v2)
+        public const string HostNameKey = "host-name";
+        public const string FetchScriptVerbKey = "verb-fetch-script";
+        public const string InjectScriptVerbKey = "verb-inject-script";
+        public const string MappingDataVerbKey = "verb-mapping-data";
+        public const string HttpPortKey = "http-port";
+        public const string HttpsPortKey = "https-port";
+        public const string ServerDataVerbKey = "verb-server-data";
+        public const string ProjectDataKey = "project";
+
+        /// <summary>
         /// Constants representing the type of mapping data to follow
         /// </summary>
         public enum MappingDataType
