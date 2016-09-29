@@ -10,6 +10,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
     public class BrowserLinkMiddleWareUtilTest
     {
         private const string IfNoneMatch = "If-None-Match";
+        private const string IfModifiedSince = "If-Modified-Since";
         private const string ETag = "ETag";
 
         [Fact]
@@ -114,7 +115,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             string[] strings = { };
             IHeaderDictionary dict = new HeaderDictionary
             {
-                { IfNoneMatch,new StringValues(strings) }
+                { IfNoneMatch, new StringValues(strings) }
             };
             RequestHeaders requestHeader = new RequestHeaders(dict);
             requestHeader.IfNoneMatch = null;
@@ -286,15 +287,14 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             {
                 { ETag, new StringValues("1d20ac81ccb7b87") }
             };
-            string expectedOutput = "\":7576\"";
 
             // Act
             ResponseHeaders responseHeader = new ResponseHeaders(dict);
             BrowserLinkMiddleWareUtil.AddToETag(responseHeader, port);
-            string actualOutput = responseHeader.ETag.ToString();
+
 
             // Assert
-            Assert.Equal(actualOutput, expectedOutput);
+            Assert.Null(responseHeader.ETag);
         }
 
         [Fact]
@@ -340,7 +340,8 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             // Arrange
             IHeaderDictionary dict = new HeaderDictionary
             {
-                { IfNoneMatch, new StringValues("\"1d20ac81ccb7b87:7576\"") }
+                { IfNoneMatch, new StringValues("\"1d20ac81ccb7b87:7576\"") },
+                { IfModifiedSince, new StringValues("Fri, 24 Jun 2016 18:03:04 GMT") }
             };
             RequestHeaders requestHeader = new RequestHeaders(dict);
             string connectionString = "http://localhost:7577/acskakdjaksa";
@@ -349,8 +350,8 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             BrowserLinkMiddleWareUtil.FilterRequestHeader(requestHeader, connectionString);
 
             // Assert
-            Assert.True(requestHeader.IfNoneMatch == null);
-            Assert.True(requestHeader.IfModifiedSince == null);
+            Assert.Null(requestHeader.IfNoneMatch);
+            Assert.Null(requestHeader.IfModifiedSince);
         }
 
         public void FilterRequestHeader_NoPortInConnectionString()
@@ -358,7 +359,8 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             // Arrange
             IHeaderDictionary dict = new HeaderDictionary
             {
-                { IfNoneMatch, new StringValues("\"1d20ac81ccb7b87:7576\"") }
+                { IfNoneMatch, new StringValues("\"1d20ac81ccb7b87:7576\"") },
+                { IfModifiedSince, new StringValues("Fri, 24 Jun 2016 18:03:04 GMT") }
             };
             RequestHeaders requestHeader = new RequestHeaders(dict);
             string connectionString = "http://localhost/acskakdjaksa";
@@ -367,8 +369,8 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             BrowserLinkMiddleWareUtil.FilterRequestHeader(requestHeader, connectionString);
 
             // Assert
-            Assert.True(requestHeader.IfNoneMatch == null);
-            Assert.True(requestHeader.IfModifiedSince == null);
+            Assert.Null(requestHeader.IfNoneMatch);
+            Assert.Null(requestHeader.IfModifiedSince);
         }
 
         public void FilterRequestHeader_NoPortInETag()
@@ -376,7 +378,8 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             // Arrange
             IHeaderDictionary dict = new HeaderDictionary
             {
-                { IfNoneMatch, new StringValues("\"1d20ac81ccb7b87\"") }
+                { IfNoneMatch, new StringValues("\"1d20ac81ccb7b87\"") },
+                { IfModifiedSince, new StringValues("Fri, 24 Jun 2016 18:03:04 GMT") }
             };
             RequestHeaders requestHeader = new RequestHeaders(dict);
             string connectionString = "http://localhost:7576/acskakdjaksa";
@@ -385,8 +388,8 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             BrowserLinkMiddleWareUtil.FilterRequestHeader(requestHeader, connectionString);
 
             // Assert
-            Assert.True(requestHeader.IfNoneMatch == null);
-            Assert.True(requestHeader.IfModifiedSince == null);
+            Assert.Null(requestHeader.IfNoneMatch);
+            Assert.Null(requestHeader.IfModifiedSince);
         }
 
         public void FilterRequestHeader_NoPortInEtagAndConnectionString()
@@ -394,17 +397,18 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             // Arrange
             IHeaderDictionary dict = new HeaderDictionary
             {
-                { IfNoneMatch, new StringValues("\"1d20ac81ccb7b87\"") }
+                { IfNoneMatch, new StringValues("\"1d20ac81ccb7b87\"") },
+                { IfModifiedSince, new StringValues("Fri, 24 Jun 2016 18:03:04 GMT") }
             };
             RequestHeaders requestHeader = new RequestHeaders(dict);
-            string connectionString = "http://localhost/acskakdjaksa";
+            string connectionString = "http://localhost:invalid/acskakdjaksa";
 
             // Act
             BrowserLinkMiddleWareUtil.FilterRequestHeader(requestHeader, connectionString);
 
             // Assert
-            Assert.True(requestHeader.IfNoneMatch == null);
-            Assert.True(requestHeader.IfModifiedSince == null);
+            Assert.Null(requestHeader.IfNoneMatch);
+            Assert.Null(requestHeader.IfModifiedSince);
         }
     }
 }

@@ -34,20 +34,14 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
 
         internal static int GetCurrentPort(string connectionString)
         {
-            try
-            {
-                Uri uri = new Uri(connectionString);
+            Uri uri;
 
-                return uri.Port;
-            }
-            catch (UriFormatException)
+            if (connectionString == null || !Uri.TryCreate(connectionString, UriKind.Absolute, out uri))
             {
                 return -1;
             }
-            catch (ArgumentNullException)
-            {
-                return -1;
-            }
+
+            return uri.Port;
         }
 
         internal static void RemoveETagAndTimeStamp(RequestHeaders requestHeader)
@@ -77,11 +71,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
 
         internal static void AddToETag(ResponseHeaders responseHeader, int port)
         {
-            if (responseHeader.ETag == null)
-            {
-                responseHeader.ETag = new EntityTagHeaderValue("\":" + port + "\"");
-            }
-            else
+            if (responseHeader.ETag != null)
             {
                 string temp = responseHeader.ETag.ToString().Substring(0, responseHeader.ETag.ToString().Length - 1) + ":" + port + "\"";
                 responseHeader.ETag = new EntityTagHeaderValue(temp);
