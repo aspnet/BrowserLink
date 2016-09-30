@@ -1,5 +1,3 @@
-using System;
-
 namespace Microsoft.VisualStudio.Web.BrowserLink
 {
     /// <summary>

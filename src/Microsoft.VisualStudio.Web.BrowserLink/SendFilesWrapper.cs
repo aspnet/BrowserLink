@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.Extensions.FileProviders;
 
-namespace Microsoft.VisualStudio.Web.BrowserLink.Runtime
+namespace Microsoft.VisualStudio.Web.BrowserLink
 {
     internal class SendFilesWrapper : IHttpSendFileFeature
     {
