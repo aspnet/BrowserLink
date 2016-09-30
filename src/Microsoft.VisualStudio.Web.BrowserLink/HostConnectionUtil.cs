@@ -17,6 +17,16 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
         // The actual time it takes should be significantly less than this.
         private static readonly TimeSpan HostStartupTimeout = TimeSpan.FromMilliseconds(1500);
 
+        // These were well-known values in V1 instance files. V2 instance files
+        // allow these to be overridden.
+        private static readonly IReadOnlyDictionary<string, string> V1DefaultProperties = new Dictionary<string, string>()
+        {
+            { BrowserLinkConstants.HostNameKey, "localhost" },
+            { BrowserLinkConstants.FetchScriptVerbKey, "browserLink" },
+            { BrowserLinkConstants.InjectScriptVerbKey, "injectScriptLink" },
+            { BrowserLinkConstants.MappingDataVerbKey, "sendMappingData" }
+        };
+
         /// <summary>
         /// Find the host connection for an ASP.NET application.
         /// </summary>
@@ -29,9 +39,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
 
             foreach (string instanceFileName in GetAllInstanceFileNames())
             {
-                HostConnectionData connectionCandidate;
-
-                if (ReadConnectionData(instanceFileName, out connectionCandidate))
+                foreach (HostConnectionData connectionCandidate in ReadConnectionData(instanceFileName))
                 {
                     if (ConnectionContainsApplication(connectionCandidate, applicationPhysicalPath))
                     {
@@ -164,29 +172,257 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             return fileNames;
         }
 
-        private static bool ReadConnectionData(string instanceFileName, out HostConnectionData connection)
+        private static IEnumerable<HostConnectionData> ReadConnectionData(string instanceFileName)
+        {
+            string version2FileName = instanceFileName + BrowserLinkConstants.Version2Suffix;
+            if (MappedFileExists(version2FileName))
+            {
+                return ReadV2ConnectionData(version2FileName);
+            }
+            else
+            {
+                HostConnectionData connectionData;
+
+                if (ReadV1ConnectionData(instanceFileName, out connectionData))
+                {
+                    return new HostConnectionData[] { connectionData };
+                }
+                else
+                {
+                    return new HostConnectionData[0];
+                }
+            }
+        }
+
+        private static bool ReadV1ConnectionData(string instanceFileName, out HostConnectionData connection)
         {
             List<string> lines = ReadAllLinesFrom(instanceFileName);
 
+            return ParseV1ConnectionData(instanceFileName, lines, out connection);
+        }
+
+        internal static bool ParseV1ConnectionData(string instanceFileName, List<string> lines, out HostConnectionData connection)
+        {
             if (lines.Count > 2)
             {
-                string connectionString = lines[0];
-                string sslConnectionString = lines[1];
-                string requestSignalName = instanceFileName + BrowserLinkConstants.RequestSignalSuffix;
-                string readySignalName = instanceFileName + BrowserLinkConstants.ReadySignalSuffix;
-                List<string> projects = new List<string>();
+                string connectionString;
+                string sslConnectionString;
+                string requestSignalName;
+                string readySignalName;
+                string injectScriptVerb;
+                string mappingDataVerb;
+                string serverDataVerb;
+                IEnumerable<string> projectPaths;
 
-                for (int i = 2; i < lines.Count; i++)
-                {
-                    projects.Add(PathUtil.NormalizeDirectoryPath(lines[i]));
-                }
+                CreateConnectionStringsAndProjectPaths(
+                    lines,
+                    out connectionString,
+                    out sslConnectionString,
+                    out projectPaths);
 
-                connection = new HostConnectionData(connectionString, sslConnectionString, requestSignalName, readySignalName, projects);
+                CreateSignalNames(
+                    instanceFileName,
+                    out requestSignalName,
+                    out readySignalName);
+
+                CreateVerbUrls(
+                    V1DefaultProperties,
+                    connectionString,
+                    out injectScriptVerb,
+                    out mappingDataVerb,
+                    out serverDataVerb);
+
+                connection = new HostConnectionData(
+                    connectionString,
+                    sslConnectionString,
+                    requestSignalName,
+                    readySignalName,
+                    injectScriptVerb,
+                    mappingDataVerb,
+                    serverDataVerb,
+                    projectPaths);
+
                 return true;
             }
 
             connection = null;
             return false;
+        }
+
+        private static void CreateConnectionStringsAndProjectPaths(List<string> lines, out string connectionString, out string sslConnectionString, out IEnumerable<string> projectPaths)
+        {
+            connectionString = lines[0];
+            sslConnectionString = lines[1];
+
+            List<string> projectPathsList = new List<string>();
+
+            for (int i = 2; i < lines.Count; i++)
+            {
+                projectPathsList.Add(PathUtil.NormalizeDirectoryPath(lines[i]));
+            }
+
+            projectPaths = projectPathsList;
+        }
+
+        private static IEnumerable<HostConnectionData> ReadV2ConnectionData(string instanceFileName)
+        {
+            List<string> instanceFileLines = ReadAllLinesFrom(instanceFileName);
+
+            return ParseV2ConnectionData(instanceFileName, instanceFileLines);
+        }
+
+        internal static IEnumerable<HostConnectionData> ParseV2ConnectionData(string instanceFileName, List<string> instanceFileLines)
+        {
+            string connectionString;
+            string sslConnectionString;
+            string requestSignalName;
+            string readySignalName;
+            string injectScriptVerb;
+            string mappingDataVerb;
+            string serverDataVerb;
+            IEnumerable<string> projectPaths;
+
+            string instanceFileNameBase = instanceFileName.Substring(0, instanceFileName.Length - BrowserLinkConstants.Version2Suffix.Length);
+            CreateSignalNames(
+                instanceFileNameBase,
+                out requestSignalName,
+                out readySignalName);
+
+            Dictionary<string, string> properties = new Dictionary<string, string>();
+            Dictionary<string, string> projects = new Dictionary<string, string>();
+
+            ParseValuesFromLines(instanceFileLines, properties, projects);
+
+            List<HostConnectionData> connections = new List<HostConnectionData>();
+
+            foreach (KeyValuePair<string, string> project in projects)
+            {
+                CreateConnectionStrings(
+                    properties,
+                    project.Key,
+                    out connectionString,
+                    out sslConnectionString);
+
+                CreateVerbUrls(
+                    properties,
+                    connectionString,
+                    out injectScriptVerb,
+                    out mappingDataVerb,
+                    out serverDataVerb);
+
+                projectPaths = new string[] { PathUtil.NormalizeDirectoryPath(project.Value) };
+
+                connections.Add(new HostConnectionData(
+                    connectionString,
+                    sslConnectionString,
+                    requestSignalName,
+                    readySignalName,
+                    injectScriptVerb,
+                    mappingDataVerb,
+                    serverDataVerb,
+                    projectPaths));
+            }
+
+            return connections;
+        }
+
+        private static void CreateConnectionStrings(Dictionary<string, string> properties, string projectKey, out string connectionString, out string sslConnectionString)
+        {
+            connectionString = String.Empty;
+            sslConnectionString = String.Empty;
+
+            string hostName;
+            string fetchScriptVerb;
+            if (properties.TryGetValue(BrowserLinkConstants.HostNameKey, out hostName) &&
+                properties.TryGetValue(BrowserLinkConstants.FetchScriptVerbKey, out fetchScriptVerb))
+            {
+                string httpPort;
+                if (properties.TryGetValue(BrowserLinkConstants.HttpPortKey, out httpPort))
+                {
+                    connectionString = String.Format("http://{0}:{1}/{2}/{3}",
+                        hostName,
+                        httpPort,
+                        projectKey,
+                        fetchScriptVerb);
+                }
+
+                string httpsPort;
+                if (properties.TryGetValue(BrowserLinkConstants.HttpsPortKey, out httpsPort))
+                {
+                    sslConnectionString = String.Format("https://{0}:{1}/{2}/{3}",
+                        hostName,
+                        httpsPort,
+                        projectKey,
+                        fetchScriptVerb);
+                }
+            }
+        }
+
+        private static void CreateSignalNames(string instanceFileName, out string requestSignalName, out string readySignalName)
+        {
+            requestSignalName = instanceFileName + BrowserLinkConstants.RequestSignalSuffix;
+            readySignalName = instanceFileName + BrowserLinkConstants.ReadySignalSuffix;
+        }
+
+        private static void CreateVerbUrls(IReadOnlyDictionary<string, string> properties, string httpConnectionString, out string injectScriptVerb, out string mappingDataVerb, out string serverDataVerb)
+        {
+            injectScriptVerb = null;
+            mappingDataVerb = null;
+            serverDataVerb = null;
+
+            if (httpConnectionString != null)
+            {
+                Uri connectionUri;
+                if (Uri.TryCreate(httpConnectionString, UriKind.Absolute, out connectionUri))
+                {
+                    string verbName;
+
+                    if (properties.TryGetValue(BrowserLinkConstants.InjectScriptVerbKey, out verbName))
+                    {
+                        injectScriptVerb = new Uri(connectionUri, verbName).ToString();
+                    }
+
+                    if (properties.TryGetValue(BrowserLinkConstants.MappingDataVerbKey, out verbName))
+                    {
+                        mappingDataVerb = new Uri(connectionUri, verbName).ToString();
+                    }
+
+                    if (properties.TryGetValue(BrowserLinkConstants.ServerDataVerbKey, out verbName))
+                    {
+                        serverDataVerb = new Uri(connectionUri, verbName).ToString();
+                    }
+                }
+            }
+        }
+
+        private static void ParseValuesFromLines(List<string> lines, Dictionary<string, string> properties, Dictionary<string, string> projects)
+        {
+            foreach (string line in lines)
+            {
+                int colonIndex = line.IndexOf(':');
+                if (colonIndex < 0)
+                {
+                    continue;
+                }
+
+                string key = line.Substring(0, colonIndex);
+                string value = line.Substring(colonIndex + 1);
+
+                if (String.Equals(key, BrowserLinkConstants.ProjectDataKey, StringComparison.Ordinal))
+                {
+                    string[] parts = value.Split(';');
+                    if (parts.Length < 2)
+                    {
+                        continue;
+                    }
+
+                    projects[parts[1]] = parts[0];
+                }
+                else
+                {
+                    properties[key] = value;
+                }
+            }
         }
 
         private static List<string> ReadAllLinesFrom(string fileName)
