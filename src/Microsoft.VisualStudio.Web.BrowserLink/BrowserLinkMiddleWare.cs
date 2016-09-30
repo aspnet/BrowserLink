@@ -4,6 +4,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Headers;
 
 namespace Microsoft.VisualStudio.Web.BrowserLink
 {
@@ -22,8 +23,6 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
 
         private RequestDelegate _next;
         private string _applicationPath;
-
-        private const string headerIfNoneMatch = "If-None-Match";
 
         internal BrowserLinkMiddleware(string applicationPath, RequestDelegate next)
         {
@@ -46,9 +45,11 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             }
             else
             {
-                if (context.Request.Headers.ContainsKey(headerIfNoneMatch) && BrowserLinkMiddleWareUtil.GetRequestPort(context.Request.Headers) != -1)
+                RequestHeaders requestHeader = new RequestHeaders(context.Request.Headers); 
+
+                if (requestHeader.IfNoneMatch != null && BrowserLinkMiddleWareUtil.GetRequestPort(requestHeader).Count != 0)
                 {
-                    BrowserLinkMiddleWareUtil.RemoveETagAndTimeStamp(context.Request.Headers);
+                    BrowserLinkMiddleWareUtil.RemoveETagAndTimeStamp(requestHeader);
                 }
 
                 return ExecuteWithoutFilter(context);
@@ -78,9 +79,11 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
 
             PreprocessRequestHeader(httpContext, ref currentPort);
 
+            RequestHeaders requestHeader = new RequestHeaders(httpContext.Request.Headers);
+
             if (currentPort == -1)
             {
-                BrowserLinkMiddleWareUtil.RemoveETagAndTimeStamp(httpContext.Request.Headers);
+                BrowserLinkMiddleWareUtil.RemoveETagAndTimeStamp(requestHeader);
             }
 
             using (ScriptInjectionFilterStream filter = new ScriptInjectionFilterStream(injectScriptSocket, filterContext))
@@ -89,7 +92,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
                 httpContext.Response.OnStarting(delegate ()
                 {
                     httpContext.Response.ContentLength = null;
-                    BrowserLinkMiddleWareUtil.AddToETag(httpContext.Response.Headers, currentPort);
+                    ResponseHeaders responseHeader = new ResponseHeaders(httpContext.Response.Headers);
+
+                    BrowserLinkMiddleWareUtil.AddToETag(responseHeader, currentPort);
 
                     return StaticTaskResult.True;
                 });
@@ -226,13 +231,15 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
 
         private void PreprocessRequestHeader(HttpContext httpContext, ref int currentPort)
         {
-            if (httpContext.Request.Headers.ContainsKey(headerIfNoneMatch))
+            RequestHeaders requestHeader = new RequestHeaders(httpContext.Request.Headers);
+
+            if (requestHeader.IfNoneMatch != null)
             {
                 HostConnectionData connectionData;
 
                 if (GetHostConnectionData(_applicationPath, out connectionData))
                 {
-                    currentPort = BrowserLinkMiddleWareUtil.FilterRequestHeader(httpContext.Request.Headers, connectionData.ConnectionString);
+                    currentPort = BrowserLinkMiddleWareUtil.FilterRequestHeader(requestHeader, connectionData.ConnectionString);
                 }
             }
         }
