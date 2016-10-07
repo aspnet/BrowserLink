@@ -10,20 +10,20 @@
     ]
   },
   "dependencies": {
-    "Microsoft.AspNetCore.Http.Abstractions": "1.1.0-*",
-    "Microsoft.Extensions.FileProviders.Physical": "1.1.0-*",
-    "Microsoft.Extensions.PlatformAbstractions": "1.1.0-*"
+    "Microsoft.AspNetCore.Http.Abstractions": "1.0.0*",
+    "Microsoft.Extensions.FileProviders.Physical": "1.0.0",
+    "Microsoft.Extensions.PlatformAbstractions": "1.0.0"
   },
   "frameworks": {
     "net451": {},
     "netstandard1.5": {
       "dependencies": {
-        "Microsoft.Win32.Registry": "4.0.0-*",
-        "System.Text.Encoding": "4.0.11-*",
-        "System.Threading": "4.0.11-*",
-        "System.Net.Sockets": "4.1.0-*",
-        "System.Collections": "4.0.11-*",
-        "System.Runtime.Loader": "4.0.0-*"
+        "Microsoft.Win32.Registry": "4.0.0",
+        "System.Text.Encoding": "4.0.11",
+        "System.Threading": "4.0.11",
+        "System.Net.Sockets": "4.1.0",
+        "System.Collections": "4.0.11",
+        "System.Runtime.Loader": "4.0.0"
       }
     }
   }
