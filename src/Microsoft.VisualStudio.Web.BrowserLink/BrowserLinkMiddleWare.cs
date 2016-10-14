@@ -25,6 +25,8 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
         private RequestDelegate _next;
         private string _applicationPath;
 
+        private static string _hostUrl;
+
         internal BrowserLinkMiddleware(string applicationPath, RequestDelegate next)
         {
             _applicationPath = applicationPath;
@@ -39,14 +41,17 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             string requestId = Guid.NewGuid().ToString("N");
 
             IHttpSocketAdapter injectScriptSocket = GetSocketConnectionToHost(_applicationPath, requestId, "injectScriptLink", context.Request.IsHttps);
+            RequestHeaders requestHeader = new RequestHeaders(context.Request.Headers);
 
+            _hostUrl = BrowserLinkMiddleWareUtil.GetRequestUrl(requestHeader);
+            
             if (injectScriptSocket != null)
             {
                 return ExecuteWithFilter(injectScriptSocket, requestId, context);
             }
             else
             {
-                RequestHeaders requestHeader = new RequestHeaders(context.Request.Headers); 
+//                RequestHeaders requestHeader = new RequestHeaders(context.Request.Headers); 
 
                 if (requestHeader.IfNoneMatch != null && BrowserLinkMiddleWareUtil.GetRequestPort(requestHeader).Count != 0)
                 {
@@ -172,6 +177,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             {
                 httpSocket.AddRequestHeader(BrowserLinkConstants.RequestScheme, "http");
             }
+
+            httpSocket.AddRequestHeader(BrowserLinkConstants.RequestTest, "testValue");
+            httpSocket.AddRequestHeader(BrowserLinkConstants.RequestHostUrl, _hostUrl);
         }
 
         private static bool FindAndSignalHostConnection(string applicationPath)

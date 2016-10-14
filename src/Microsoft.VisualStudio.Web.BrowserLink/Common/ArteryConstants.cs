@@ -48,6 +48,10 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
         /// </summary>
         public const string RequestScheme = "Scheme";
 
+        public const string RequestTest = "TestKey";
+
+        public const string RequestHostUrl = "HostUrl";
+
         /// <summary>
         /// Suffix added to the end of the instance file name to identify a
         /// Version 2 instance file
