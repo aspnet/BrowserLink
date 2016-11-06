@@ -1,5 +1,5 @@
 {
-  "version": "14.0.0",
+  "version": "14.0.1",
   "description": "A middleware that supports creating a communication channel between the development environment and one or more web browsers.",
   "buildOptions": {
     "warningsAsErrors": true,
@@ -10,8 +10,8 @@
     ]
   },
   "dependencies": {
-    "Microsoft.AspNetCore.Http.Abstractions": "1.0.0",
-    "Microsoft.Extensions.FileProviders.Physical": "1.0.0",
+    "Microsoft.AspNetCore.Http.Abstractions": "1.0.1",
+    "Microsoft.Extensions.FileProviders.Physical": "1.0.1",
     "Microsoft.Extensions.PlatformAbstractions": "1.0.0"
   },
   "frameworks": {
