@@ -1,5 +1,5 @@
 {
-  "version": "1.2.0-*",
+  "version": "14.2.0-*",
   "description": "A middleware that supports creating a communication channel between the development environment and one or more web browsers.",
   "buildOptions": {
     "warningsAsErrors": true,
