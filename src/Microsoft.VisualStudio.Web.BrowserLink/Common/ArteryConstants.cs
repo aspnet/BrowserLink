@@ -48,8 +48,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
         /// </summary>
         public const string RequestScheme = "Scheme";
 
-        public const string RequestTest = "TestKey";
-
+        /// <summary>
+        /// The url of the host used for project match.
+        /// </summary>
         public const string RequestHostUrl = "HostUrl";
 
         /// <summary>
