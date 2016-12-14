@@ -49,6 +49,11 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
         public const string RequestScheme = "Scheme";
 
         /// <summary>
+        /// The url of the host used for project match.
+        /// </summary>
+        public const string RequestHostUrl = "HostUrl";
+
+        /// <summary>
         /// Suffix added to the end of the instance file name to identify a
         /// Version 2 instance file
         /// </summary>

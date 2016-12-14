@@ -37,17 +37,18 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
         internal Task Invoke(HttpContext context)
         {
             string requestId = Guid.NewGuid().ToString("N");
+            RequestHeaders requestHeader = new RequestHeaders(context.Request.Headers);
 
-            IHttpSocketAdapter injectScriptSocket = GetSocketConnectionToHost(_applicationPath, requestId, "injectScriptLink", context.Request.IsHttps);
+            string hostUrl = BrowserLinkMiddleWareUtil.GetRequestUrl(requestHeader);
 
+            IHttpSocketAdapter injectScriptSocket = GetSocketConnectionToHost(_applicationPath, requestId, "injectScriptLink", context.Request.IsHttps, hostUrl);
+                       
             if (injectScriptSocket != null)
             {
                 return ExecuteWithFilter(injectScriptSocket, requestId, context);
             }
             else
             {
-                RequestHeaders requestHeader = new RequestHeaders(context.Request.Headers); 
-
                 if (requestHeader.IfNoneMatch != null && BrowserLinkMiddleWareUtil.GetRequestPort(requestHeader).Count != 0)
                 {
                     BrowserLinkMiddleWareUtil.RemoveETagAndTimeStamp(requestHeader);
@@ -59,7 +60,11 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
 
         private PageExecutionListenerFeature AddPageExecutionListenerFeatureTo(HttpContext context, string requestId)
         {
-            IHttpSocketAdapter mappingDataSocket = GetSocketConnectionToHost(_applicationPath, requestId, "sendMappingData", context.Request.IsHttps);
+            RequestHeaders requestHeader = new RequestHeaders(context.Request.Headers);
+
+            string hostUrl = BrowserLinkMiddleWareUtil.GetRequestUrl(requestHeader);
+
+            IHttpSocketAdapter mappingDataSocket = GetSocketConnectionToHost(_applicationPath, requestId, "sendMappingData", context.Request.IsHttps, hostUrl);
 
             if (mappingDataSocket != null)
             {
@@ -126,7 +131,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             return _next(context);
         }
 
-        private static IHttpSocketAdapter GetSocketConnectionToHost(string applicationPath, string requestId, string rpcMethod, bool isHttps)
+        private static IHttpSocketAdapter GetSocketConnectionToHost(string applicationPath, string requestId, string rpcMethod, bool isHttps, string hostUrl)
         {
             // The host should send an initial response immediately after
             // the connection is established. If it fails to do so multiple times,
@@ -148,7 +153,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
                     {
                         IHttpSocketAdapter httpSocket = await HttpSocketAdapter.OpenHttpSocketAsync("GET", new Uri(connectionString, rpcMethod));
 
-                        AddRequestHeaders(httpSocket, requestId, isHttps);
+                        AddRequestHeaders(httpSocket, requestId, isHttps, hostUrl);
 
                         return httpSocket;
                     }
@@ -160,7 +165,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             return null;
         }
 
-        private static void AddRequestHeaders(IHttpSocketAdapter httpSocket, string requestId, bool isHttps)
+        private static void AddRequestHeaders(IHttpSocketAdapter httpSocket, string requestId, bool isHttps, string hostUrl)
         {
             httpSocket.AddRequestHeader(BrowserLinkConstants.RequestIdHeaderName, requestId);
 
@@ -172,6 +177,8 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             {
                 httpSocket.AddRequestHeader(BrowserLinkConstants.RequestScheme, "http");
             }
+
+            httpSocket.AddRequestHeader(BrowserLinkConstants.RequestHostUrl, hostUrl);
         }
 
         private static bool FindAndSignalHostConnection(string applicationPath)

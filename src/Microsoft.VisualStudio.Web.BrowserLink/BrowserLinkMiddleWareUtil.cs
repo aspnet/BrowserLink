@@ -32,6 +32,11 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             return requestPortList;
         }
 
+        internal static string GetRequestUrl(RequestHeaders requstHeader)
+        {
+            return requstHeader.Host.ToString();
+        }
+
         internal static int GetCurrentPort(string connectionString)
         {
             Uri uri;
