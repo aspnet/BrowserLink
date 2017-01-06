@@ -1,5 +1,5 @@
 {
-  "version": "1.2.0-*",
+  "version": "1.1.0-*",
   "buildOptions": {
     "keyFile": "../../tools/Key.snk",
     "debugType": "portable"
@@ -7,8 +7,8 @@
   "dependencies": {
     "xunit": "2.2.0-*",
     "dotnet-test-xunit": "2.2.0-*",
-    "Microsoft.VisualStudio.Web.BrowserLink": "1.1.0-*",
-    "Microsoft.AspNetCore.Http": "1.0.0"
+    "Microsoft.VisualStudio.Web.BrowserLink": "1.1.0",
+    "Microsoft.AspNetCore.Http": "1.1.0"
   },
   "testRunner": "xunit",
   "frameworks": {
