@@ -19,7 +19,7 @@
           "type": "platform",
           "version": "1.2.0-*"
         },
-        "System.Diagnostics.StackTrace": "4.4.0-*"
+        "System.Diagnostics.StackTrace": "4.4.0"
       }
     }
   }
