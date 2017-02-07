@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net451;netcoreapp1.1</TargetFrameworks>
-    <TargetFrameworks Conditions=" '$(OS)' != 'Windows_NT' ">netcoreapp1.1</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netcoreapp1.1</TargetFrameworks>
     <DebugType>portable</DebugType>
   </PropertyGroup>
 

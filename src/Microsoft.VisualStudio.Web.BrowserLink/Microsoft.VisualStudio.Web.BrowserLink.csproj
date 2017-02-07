@@ -3,7 +3,6 @@
   <Import Project="..\..\build\common.props" />
 
   <PropertyGroup>
-    <VersionPrefix>1.2.0</VersionPrefix>
     <Description>A middleware that supports creating a communication channel between the development environment and one or more web browsers.</Description>
     <TargetFrameworks>net451;netstandard1.5</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
