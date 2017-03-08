@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Text;
+using Microsoft.AspNetCore.Testing.xunit;
 using Xunit;
 
 namespace Microsoft.VisualStudio.Web.BrowserLink
 {
     public class ContentTypeUtilTest
     {
-        [Fact]
+        [ConditionalFact]
+        [OSSkipCondition(OperatingSystems.Linux, SkipReason = "Uses native Windows methods")]
+        [OSSkipCondition(OperatingSystems.MacOSX, SkipReason = "Uses native Windows methods")]
         public void IsHtml_DetectsTextHtmlInContentType()
         {
             string[] htmlContentTypes = new string[]
@@ -37,7 +40,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             }
         }
 
-        [Fact]
+        [ConditionalFact]
+        [OSSkipCondition(OperatingSystems.Linux, SkipReason = "Uses native Windows methods")]
+        [OSSkipCondition(OperatingSystems.MacOSX, SkipReason = "Uses native Windows methods")]
         public void IsHtml_DetectsHtmlInBuffer()
         {
             // Arrange
@@ -50,7 +55,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             Assert.Equal(true, result);
         }
 
-        [Fact]
+        [ConditionalFact]
+        [OSSkipCondition(OperatingSystems.Linux, SkipReason = "Uses native Windows methods")]
+        [OSSkipCondition(OperatingSystems.MacOSX, SkipReason = "Uses native Windows methods")]
         public void IsHtml_DetectsNonHtmlInBuffer()
         {
             // Arrange
@@ -63,7 +70,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             Assert.Equal(false, result);
         }
 
-        [Fact]
+        [ConditionalFact]
+        [OSSkipCondition(OperatingSystems.Linux, SkipReason = "Uses native Windows methods")]
+        [OSSkipCondition(OperatingSystems.MacOSX, SkipReason = "Uses native Windows methods")]
         public void IsHtml_DetectsHtmlInBufferWithOffset()
         {
             // Arrange
