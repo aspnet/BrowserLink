@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Testing.xunit;
 using Xunit;
 
 namespace Microsoft.VisualStudio.Web.BrowserLink
 {
     public class ScriptInjectionFilterStreamTest
     {
-        [Fact]
+        [ConditionalFact]
+        [OSSkipCondition(OperatingSystems.Linux, SkipReason = "Uses native Windows methods")]
+        [OSSkipCondition(OperatingSystems.MacOSX, SkipReason = "Uses native Windows methods")]
         public void ScriptInjectionFilterStream_PassesHtmlToFilter()
         {
             // Arrange
@@ -30,7 +33,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             Assert.False(serverSocket.IsClosed, "Server connection should not have been closed.");
         }
 
-        [Fact]
+        [ConditionalFact]
+        [OSSkipCondition(OperatingSystems.Linux, SkipReason = "Uses native Windows methods")]
+        [OSSkipCondition(OperatingSystems.MacOSX, SkipReason = "Uses native Windows methods")]
         public void ScriptInjectionFilterStream_PassesJavascriptDirectlyToOutput()
         {
             // Arrange
@@ -51,7 +56,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             Assert.Equal("var i = 1234;", filterContext.GetResponseBody(Encoding.UTF8));
         }
 
-        [Fact]
+        [ConditionalFact]
+        [OSSkipCondition(OperatingSystems.Linux, SkipReason = "Uses native Windows methods")]
+        [OSSkipCondition(OperatingSystems.MacOSX, SkipReason = "Uses native Windows methods")]
         public void ScriptInjectionFilterStream_PassesCssDirectlyToOutput()
         {
             // Arrange
@@ -71,7 +78,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             Assert.Equal("body { font-weight: bold; }", filterContext.GetResponseBody(Encoding.UTF8));
         }
 
-        [Fact]
+        [ConditionalFact]
+        [OSSkipCondition(OperatingSystems.Linux, SkipReason = "Uses native Windows methods")]
+        [OSSkipCondition(OperatingSystems.MacOSX, SkipReason = "Uses native Windows methods")]
         public void ScriptInjectionFilterStream_ChecksResponseContentType()
         {
             // Arrange
@@ -93,7 +102,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             Assert.Equal("var myhtml = \"<html></html>\";", filterContext.GetResponseBody(Encoding.UTF8));
         }
 
-        [Fact]
+        [ConditionalFact]
+        [OSSkipCondition(OperatingSystems.Linux, SkipReason = "Uses native Windows methods")]
+        [OSSkipCondition(OperatingSystems.MacOSX, SkipReason = "Uses native Windows methods")]
         public void ScriptInjectionFilterStream_CompleteFilterProcess()
         {
             // Arrange
@@ -142,7 +153,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             Assert.Equal(false, filterStream.ScriptInjectionTimedOut);
         }
 
-        [Fact]
+        [ConditionalFact]
+        [OSSkipCondition(OperatingSystems.Linux, SkipReason = "Uses native Windows methods")]
+        [OSSkipCondition(OperatingSystems.MacOSX, SkipReason = "Uses native Windows methods")]
         public void ScriptInjectionFilterStream_CompletePassthroughProcess()
         {
             // Arrange
@@ -173,7 +186,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             TaskAssert.Completed(completeTask, "Flush should complete immediately, because the filter is not being used.");
         }
 
-        [Fact]
+        [ConditionalFact]
+        [OSSkipCondition(OperatingSystems.Linux, SkipReason = "Uses native Windows methods")]
+        [OSSkipCondition(OperatingSystems.MacOSX, SkipReason = "Uses native Windows methods")]
         public void ScriptInjectionFilterStream_ErrorResponseCodeFromServer()
         {
             // Arrange
@@ -199,7 +214,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             Assert.True(serverSocket.IsClosed, "Server connection should be closed.");
         }
 
-        [Fact]
+        [ConditionalFact]
+        [OSSkipCondition(OperatingSystems.Linux, SkipReason = "Uses native Windows methods")]
+        [OSSkipCondition(OperatingSystems.MacOSX, SkipReason = "Uses native Windows methods")]
         public void ScriptInjectionFilterStream_ExceptionOnFirstWrite()
         {
             // Arrange
@@ -221,7 +238,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             Assert.True(serverSocket.IsClosed, "Server connection should be closed.");
         }
 
-        [Fact]
+        [ConditionalFact]
+        [OSSkipCondition(OperatingSystems.Linux, SkipReason = "Uses native Windows methods")]
+        [OSSkipCondition(OperatingSystems.MacOSX, SkipReason = "Uses native Windows methods")]
         public void ScriptInjectionFilterStream_ExceptionOnSubsequentWrite()
         {
             // Arrange
@@ -253,7 +272,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             Assert.Equal("SendAsync after ThrowExceptionOnNextSendAsync was called.", result.Exception.InnerException.Message);
         }
 
-        [Fact]
+        [ConditionalFact]
+        [OSSkipCondition(OperatingSystems.Linux, SkipReason = "Uses native Windows methods")]
+        [OSSkipCondition(OperatingSystems.MacOSX, SkipReason = "Uses native Windows methods")]
         public void ScriptInjectionFilterStream_BecomesPassthroughOnTimeout()
         {
             // Arrange
