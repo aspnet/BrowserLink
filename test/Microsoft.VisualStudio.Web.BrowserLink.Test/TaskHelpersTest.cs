@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Testing.xunit;
 using Xunit;
 
 namespace Microsoft.VisualStudio.Web.BrowserLink
@@ -40,9 +39,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             TaskAssert.ResultEquals(result, "Hello");
         }
 
-        [ConditionalFact]
-        [OSSkipCondition(OperatingSystems.Linux, SkipReason = "https://github.com/aspnet/BrowserLink/issues/43 ")]
-        [OSSkipCondition(OperatingSystems.MacOSX, SkipReason = "https://github.com/aspnet/BrowserLink/issues/43")]
+        [Fact (Skip = "https://github.com/aspnet/BrowserLink/issues/43")]
         public void TaskHelpers_WaitWithTimeout_ReturnsTimeoutResultIfTaskNotComplete()
         {
             // Arrange
@@ -88,7 +85,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             // Assert
             TaskAssert.NotCompleted(result);
         }
-        
+
         [Fact]
         public void TaskHelpers_WaitWithCancellation_ReturnsCompletedTask()
         {
