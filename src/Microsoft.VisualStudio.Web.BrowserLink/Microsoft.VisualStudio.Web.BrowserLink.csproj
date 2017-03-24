@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <Description>A middleware that supports creating a communication channel between the development environment and one or more web browsers.</Description>
-    <TargetFrameworks>net451;netstandard1.5</TargetFrameworks>
+    <TargetFrameworks>net46;netstandard1.5</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
