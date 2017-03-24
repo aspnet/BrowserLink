@@ -28,3 +28,4 @@ project.lock.json
 *.*sdf
 *.ipch
 .vs/
+global.json
