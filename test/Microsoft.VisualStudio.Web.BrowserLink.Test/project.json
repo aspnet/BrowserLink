@@ -7,8 +7,8 @@
   "dependencies": {
     "xunit": "2.2.0-*",
     "dotnet-test-xunit": "2.2.0-*",
-    "Microsoft.VisualStudio.Web.BrowserLink": "1.1.1",
-    "Microsoft.AspNetCore.Http": "1.1.1"
+    "Microsoft.VisualStudio.Web.BrowserLink": "1.1.2",
+    "Microsoft.AspNetCore.Http": "1.1.2"
   },
   "testRunner": "xunit",
   "frameworks": {
