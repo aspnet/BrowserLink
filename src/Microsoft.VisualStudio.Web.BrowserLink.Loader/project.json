@@ -9,6 +9,12 @@
       "CS1591"
     ]
   },
+  "packOptions": {
+    "tags": [
+      "aspnetcore",
+      "browserlink"
+    ]
+  },
   "dependencies": {
     "Microsoft.AspNetCore.Http.Abstractions": "1.0.2",
     "Microsoft.Extensions.FileProviders.Physical": "1.0.1",
