@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <Description>A middleware that supports creating a communication channel between the development environment and one or more web browsers.</Description>
-    <TargetFrameworks>net46;netstandard1.5</TargetFrameworks>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
@@ -14,13 +14,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="Microsoft.Extensions.TaskCache.Sources" Version="$(AspNetCoreVersion)" PrivateAssets="All"/>
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.5' ">
-    <PackageReference Include="System.Diagnostics.Tools" Version="$(CoreFxVersion)" />
-    <PackageReference Include="System.IO.MemoryMappedFiles" Version="$(CoreFxVersion)" />
-    <PackageReference Include="System.Net.Primitives" Version="$(CoreFxVersion)" />
-    <PackageReference Include="System.Net.Sockets" Version="$(CoreFxVersion)" />
   </ItemGroup>
 
 </Project>
