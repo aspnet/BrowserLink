@@ -117,7 +117,13 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
                     _receiveEventArgs.SetBuffer(buffer, offset, count);
                     _receiveEventArgs.UserToken = tcs;
 
-                    _socket.ReceiveAsync(_receiveEventArgs);
+                    bool pending = _socket.ReceiveAsync(_receiveEventArgs);
+
+                    if (!pending)
+                    {
+                        // Operation completed synchronously
+                        OnAsyncComplete(_socket, _receiveEventArgs);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -148,7 +154,13 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
                         _sendEventArgs.BufferList = buffers;
                         _sendEventArgs.UserToken = tcs;
 
-                        _socket.SendAsync(_sendEventArgs);
+                        bool pending = _socket.SendAsync(_sendEventArgs);
+
+                        if (!pending)
+                        {
+                            // Operation completed asynchronously
+                            OnAsyncComplete(_socket, _sendEventArgs);
+                        }
                     }
                     else
                     {
