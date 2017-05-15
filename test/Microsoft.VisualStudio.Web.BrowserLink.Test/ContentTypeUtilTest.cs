@@ -52,7 +52,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             bool result = ContentTypeUtil.IsHtml("default.html",  buffer, 0, buffer.Length);
 
             // Assert
-            Assert.Equal(true, result);
+            Assert.True(result);
         }
 
         [ConditionalFact]
@@ -67,7 +67,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             bool result = ContentTypeUtil.IsHtml("default.html", buffer, 0, buffer.Length);
 
             // Assert
-            Assert.Equal(false, result);
+            Assert.False(result);
         }
 
         [ConditionalFact]
@@ -85,7 +85,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             bool result = ContentTypeUtil.IsHtml("default.html", bufferWithLeadingBytes, 100, buffer.Length);
 
             // Assert
-            Assert.Equal(true, result);
+            Assert.True(result);
         }
     }
 }

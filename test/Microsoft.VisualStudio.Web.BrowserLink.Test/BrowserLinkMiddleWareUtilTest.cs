@@ -22,7 +22,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             int currentPort = BrowserLinkMiddleWareUtil.GetCurrentPort(connectionString);
 
             // Assert
-            Assert.Equal(currentPort, 3082);
+            Assert.Equal(3082, currentPort);
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             int currentPort = BrowserLinkMiddleWareUtil.GetCurrentPort(connectionString);
 
             // Assert
-            Assert.Equal(currentPort, 80);
+            Assert.Equal(80, currentPort);
         }
 
         [Fact]
@@ -105,7 +105,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             List<int> requestPortList = BrowserLinkMiddleWareUtil.GetRequestPort(requestHeader);
 
             // Assert
-            Assert.Equal(requestPortList.Count, 0);
+            Assert.Equal(0, requestPortList.Count);
         }
 
         [Fact]
@@ -123,7 +123,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             List<int> requestPortList = BrowserLinkMiddleWareUtil.GetRequestPort(requestHeader);
 
             // Assert
-            Assert.Equal(requestPortList.Count, 0);
+            Assert.Equal(0, requestPortList.Count);
         }
 
         [Fact]
@@ -137,7 +137,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             List<int> requestPortList = BrowserLinkMiddleWareUtil.GetRequestPort(requestHeader);
 
             // Assert
-            Assert.Equal(requestPortList.Count, 0);
+            Assert.Equal(0, requestPortList.Count);
         }
 
         [Fact]
@@ -154,7 +154,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             List<int> requestPortList = BrowserLinkMiddleWareUtil.GetRequestPort(requestHeader);
 
             // Assert
-            Assert.Equal(requestPortList.Count, 0);
+            Assert.Equal(0, requestPortList.Count);
         }
 
         [Fact]
@@ -171,7 +171,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             List<int> requestPortList = BrowserLinkMiddleWareUtil.GetRequestPort(requestHeader);
 
             // Assert
-            Assert.Equal(requestPortList.Count, 0);
+            Assert.Equal(0, requestPortList.Count);
         }
 
         [Fact]
@@ -252,9 +252,9 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             BrowserLinkMiddleWareUtil.DeletePortFromETag(requestHeader);
 
             // Assert
-            Assert.Equal(requestHeader.IfNoneMatch[0].ToString(), "\"1d20ac81ccb7b87\"");
-            Assert.Equal(requestHeader.IfNoneMatch[1].ToString(), "\"1sjaeuald13js17\"");
-            Assert.Equal(requestHeader.IfNoneMatch[2].ToString(), "\"siela139s39aks1\"");
+            Assert.Equal("\"1d20ac81ccb7b87\"", requestHeader.IfNoneMatch[0].ToString());
+            Assert.Equal("\"1sjaeuald13js17\"", requestHeader.IfNoneMatch[1].ToString());
+            Assert.Equal("\"siela139s39aks1\"", requestHeader.IfNoneMatch[2].ToString());
         }
         
         [Fact]
@@ -331,9 +331,10 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             BrowserLinkMiddleWareUtil.FilterRequestHeader(requestHeader, connectionString);
 
             // Assert
-            Assert.Equal(requestHeader.IfNoneMatch[0].ToString(), "\"1d20ac81ccb7b87\"");
+            Assert.Equal("\"1d20ac81ccb7b87\"", requestHeader.IfNoneMatch[0].ToString());
         }
 
+        [Fact]
         public void FilterRequestHeader_PortsNotMatch()
         {
             // Arrange
@@ -353,6 +354,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             Assert.Null(requestHeader.IfModifiedSince);
         }
 
+        [Fact]
         public void FilterRequestHeader_NoPortInConnectionString()
         {
             // Arrange
@@ -372,6 +374,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             Assert.Null(requestHeader.IfModifiedSince);
         }
 
+        [Fact]
         public void FilterRequestHeader_NoPortInETag()
         {
             // Arrange
@@ -391,6 +394,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             Assert.Null(requestHeader.IfModifiedSince);
         }
 
+        [Fact]
         public void FilterRequestHeader_NoPortInEtagAndConnectionString()
         {
             // Arrange

@@ -150,7 +150,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             // Assert
             Assert.Equal("Filtered content", filterContext.GetResponseBody(Encoding.ASCII));
             TaskAssert.Completed(completeTask, "After response from server.");
-            Assert.Equal(false, filterStream.ScriptInjectionTimedOut);
+            Assert.False(filterStream.ScriptInjectionTimedOut);
         }
 
         [ConditionalFact]
@@ -170,14 +170,14 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             filterStream.Write(bytesToSend, 0, 20);
 
             // Assert
-            Assert.Equal(filterContext.GetResponseBody(Encoding.UTF8), "body { font-size: xx");
+            Assert.Equal("body { font-size: xx", filterContext.GetResponseBody(Encoding.UTF8));
             Assert.True(serverSocket.IsClosed, "Server connection should be closed.");
 
             // Act II - Write some more bytes
             filterStream.Write(bytesToSend, 20, bytesToSend.Length - 20);
 
             // Assert
-            Assert.Equal(filterContext.GetResponseBody(Encoding.UTF8), "body { font-size: xxlarge; } p { background-color: red }");
+            Assert.Equal("body { font-size: xxlarge; } p { background-color: red }", filterContext.GetResponseBody(Encoding.UTF8));
 
             // Act III - Wait for complete
             Task completeTask = filterStream.FlushAsync();
