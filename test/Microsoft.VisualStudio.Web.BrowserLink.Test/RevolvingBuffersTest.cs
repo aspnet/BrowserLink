@@ -560,7 +560,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
 
         private static string GetString(ArraySegment<char> arraySegment)
         {
-            return new string(arraySegment.ToArray());
+            return new string(Enumerable.ToArray(arraySegment));
         }
     }
 }
