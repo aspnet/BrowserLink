@@ -13,7 +13,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="$(AspNetCoreVersion)" />
-    <PackageReference Include="Microsoft.Extensions.TaskCache.Sources" Version="$(AspNetCoreVersion)" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>
