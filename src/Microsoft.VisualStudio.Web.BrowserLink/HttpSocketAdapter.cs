@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Internal;
 
 namespace Microsoft.VisualStudio.Web.BrowserLink
 {
@@ -389,14 +388,14 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
 
                 if (String.IsNullOrEmpty(contentLengthString))
                 {
-                    return TaskCache.CompletedTask;
+                    return Task.CompletedTask;
                 }
 
                 long contentLength;
 
                 if (!Int64.TryParse(contentLengthString, out contentLength))
                 {
-                    return TaskCache.CompletedTask;
+                    return Task.CompletedTask;
                 }
 
                 return ReadBytesIntoResponse(contentLength);
