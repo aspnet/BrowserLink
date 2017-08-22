@@ -105,7 +105,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             List<int> requestPortList = BrowserLinkMiddleWareUtil.GetRequestPort(requestHeader);
 
             // Assert
-            Assert.Equal(0, requestPortList.Count);
+            Assert.Empty(requestPortList);
         }
 
         [Fact]
@@ -116,14 +116,16 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             {
                 { IfNoneMatch, new StringValues(strings) }
             };
-            RequestHeaders requestHeader = new RequestHeaders(dict);
-            requestHeader.IfNoneMatch = null;
+            RequestHeaders requestHeader = new RequestHeaders(dict)
+            {
+                IfNoneMatch = null
+            };
 
             // Act
             List<int> requestPortList = BrowserLinkMiddleWareUtil.GetRequestPort(requestHeader);
 
             // Assert
-            Assert.Equal(0, requestPortList.Count);
+            Assert.Empty(requestPortList);
         }
 
         [Fact]
@@ -137,7 +139,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             List<int> requestPortList = BrowserLinkMiddleWareUtil.GetRequestPort(requestHeader);
 
             // Assert
-            Assert.Equal(0, requestPortList.Count);
+            Assert.Empty(requestPortList);
         }
 
         [Fact]
@@ -154,7 +156,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             List<int> requestPortList = BrowserLinkMiddleWareUtil.GetRequestPort(requestHeader);
 
             // Assert
-            Assert.Equal(0, requestPortList.Count);
+            Assert.Empty(requestPortList);
         }
 
         [Fact]
@@ -171,7 +173,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             List<int> requestPortList = BrowserLinkMiddleWareUtil.GetRequestPort(requestHeader);
 
             // Assert
-            Assert.Equal(0, requestPortList.Count);
+            Assert.Empty(requestPortList);
         }
 
         [Fact]

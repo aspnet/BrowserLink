@@ -101,11 +101,8 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             string expectedServerDataVerb = null,
             IEnumerable<string> expectedProjectPaths = null)
         {
-            // Arrange
-            HostConnectionData connection;
-
-            // Act
-            bool result = HostConnectionUtil.ParseV1ConnectionData(fileName, SampleConnectionDataV1, out connection);
+            // Arrange & act
+            var result = HostConnectionUtil.ParseV1ConnectionData(fileName, SampleConnectionDataV1, out HostConnectionData connection);
 
             // Assert
             Assert.True(result, "ParseV1ConnectionData failed.");
@@ -140,11 +137,8 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
 
         private void Test_ParseV1ConnectionData_ShouldFail()
         {
-            // Arrange
-            HostConnectionData connection;
-
             // Act
-            bool result = HostConnectionUtil.ParseV1ConnectionData(FileName, SampleConnectionDataV1, out connection);
+            var result = HostConnectionUtil.ParseV1ConnectionData(FileName, SampleConnectionDataV1, out HostConnectionData connection);
 
             // Assert
             Assert.False(result, "ParseV1ConnectionData should fail.");
@@ -334,7 +328,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
                 Assert.Equal(expectedReadySignalName, connection.ReadySignalName);
 
                 Assert.NotNull(connection.ProjectPaths);
-                Assert.Equal(1, connection.ProjectPaths.Count());
+                Assert.Single(connection.ProjectPaths);
                 Assert.Equal(expectedProjectPath, connection.ProjectPaths.First());
 
                 Assert.Equal(expectedHttpConnectionString, connection.ConnectionString);
