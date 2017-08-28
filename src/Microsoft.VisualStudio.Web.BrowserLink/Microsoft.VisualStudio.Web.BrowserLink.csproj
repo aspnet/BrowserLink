@@ -1,7 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\build\common.props" />
-
   <PropertyGroup>
     <Description>A middleware that supports creating a communication channel between the development environment and one or more web browsers.</Description>
     <TargetFramework>netstandard2.0</TargetFramework>
