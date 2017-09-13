@@ -12,6 +12,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
     internal static class ContentTypeUtil
     {
         private const string HtmlContentType = "text/html";
+        private const string XhtmlContentType = "application/xhtml+xml";
 
         public static bool IsHtml(string contentType)
         {
@@ -23,6 +24,18 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             string[] parts = contentType.Split(';');
 
             return String.Equals(parts[0].Trim(), HtmlContentType, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static bool IsXhtml(string contentType)
+        {
+            if (String.IsNullOrEmpty(contentType))
+            {
+                return false;
+            }
+
+            string[] parts = contentType.Split(';');
+
+            return String.Equals(parts[0].Trim(), XhtmlContentType, StringComparison.OrdinalIgnoreCase);
         }
 
         public static bool IsHtml(string requestUrl, byte[] buffer, int offset, int count)

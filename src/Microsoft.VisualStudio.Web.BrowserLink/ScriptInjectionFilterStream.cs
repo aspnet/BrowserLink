@@ -271,6 +271,11 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             string contentTypeFromHeader = _context.ResponseContentType;
             string path = _context.RequestPath;
 
+            if (ContentTypeUtil.IsXhtml(contentTypeFromHeader))
+            {
+                return;
+            }
+
             if (!ContentTypeUtil.IsHtml(contentTypeFromHeader))
             {
                 CloseInjectScriptSocketAndBecomePassthrough();
