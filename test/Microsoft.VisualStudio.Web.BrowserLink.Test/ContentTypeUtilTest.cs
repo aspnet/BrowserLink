@@ -43,6 +43,39 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
         [ConditionalFact]
         [OSSkipCondition(OperatingSystems.Linux, SkipReason = "Uses native Windows methods")]
         [OSSkipCondition(OperatingSystems.MacOSX, SkipReason = "Uses native Windows methods")]
+        public void IsXhtml_DetectsXhtmlInContentType()
+        {
+            string[] xhtmlContentTypes = new string[]
+            {
+                "application/xhtml+xml",
+                "APPLICATION/xhTml+Xml",
+                "application/xhtml+xml; charset=utf-8",
+                "application/xhtml+xml; any parameter",
+            };
+
+            string[] nonXhtmlContentTypes = new string[]
+            {
+                "application/xml",
+                "application/xhtml+xml charset=utf-8",
+                null,
+                "",
+                "application/xhtm",
+            };
+
+            foreach (string xhtmlContentType in xhtmlContentTypes)
+            {
+                Assert.True(ContentTypeUtil.IsXhtml(xhtmlContentType), xhtmlContentType);
+            }
+
+            foreach (string nonXhtmlContentType in nonXhtmlContentTypes)
+            {
+                Assert.False(ContentTypeUtil.IsHtml(nonXhtmlContentType), nonXhtmlContentType);
+            }
+        }
+
+        [ConditionalFact]
+        [OSSkipCondition(OperatingSystems.Linux, SkipReason = "Uses native Windows methods")]
+        [OSSkipCondition(OperatingSystems.MacOSX, SkipReason = "Uses native Windows methods")]
         public void IsHtml_DetectsHtmlInBuffer()
         {
             // Arrange
