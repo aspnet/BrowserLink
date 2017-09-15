@@ -76,6 +76,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
                     Marshal.FreeCoTaskMem(realContentTypePtr);
                 }
             }
+
         }
     }
 }
