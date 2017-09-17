@@ -10,7 +10,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
         [ConditionalFact]
         [OSSkipCondition(OperatingSystems.Linux, SkipReason = "Uses native Windows methods")]
         [OSSkipCondition(OperatingSystems.MacOSX, SkipReason = "Uses native Windows methods")]
-        public void IsHtml_DetectsTextHtmlInContentType()
+        public void IsSupportedContentTypes_DetectsTextHtmlInContentType()
         {
             string[] htmlContentTypes = new string[]
             {
@@ -31,12 +31,45 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
 
             foreach (string htmlContentType in htmlContentTypes)
             {
-                Assert.True(ContentTypeUtil.IsHtml(htmlContentType), htmlContentType);
+                Assert.True(ContentTypeUtil.IsSupportedContentTypes(htmlContentType), htmlContentType);
             }
 
             foreach (string nonHtmlContentType in nonHtmlContentTypes)
             {
-                Assert.False(ContentTypeUtil.IsHtml(nonHtmlContentType), nonHtmlContentType);
+                Assert.False(ContentTypeUtil.IsSupportedContentTypes(nonHtmlContentType), nonHtmlContentType);
+            }
+        }
+
+        [ConditionalFact]
+        [OSSkipCondition(OperatingSystems.Linux, SkipReason = "Uses native Windows methods")]
+        [OSSkipCondition(OperatingSystems.MacOSX, SkipReason = "Uses native Windows methods")]
+        public void IsSupportedContentTypes_DetectsXhtmlInContentType()
+        {
+            string[] xhtmlContentTypes = new string[]
+            {
+                "application/xhtml+xml",
+                "APPLICATION/xhTml+Xml",
+                "application/xhtml+xml; charset=utf-8",
+                "application/xhtml+xml; any parameter",
+            };
+
+            string[] nonXhtmlContentTypes = new string[]
+            {
+                "application/xml",
+                "application/xhtml+xml charset=utf-8",
+                null,
+                "",
+                "application/xhtm",
+            };
+
+            foreach (string xhtmlContentType in xhtmlContentTypes)
+            {
+                Assert.True(ContentTypeUtil.IsSupportedContentTypes(xhtmlContentType), xhtmlContentType);
+            }
+
+            foreach (string nonXhtmlContentType in nonXhtmlContentTypes)
+            {
+                Assert.False(ContentTypeUtil.IsSupportedContentTypes(nonXhtmlContentType), nonXhtmlContentType);
             }
         }
 
