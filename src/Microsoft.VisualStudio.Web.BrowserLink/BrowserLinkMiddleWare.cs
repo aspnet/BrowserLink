@@ -97,7 +97,11 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
                 httpContext.Response.Body = filter;
                 httpContext.Response.OnStarting(delegate ()
                 {
-                    httpContext.Response.ContentLength = null;
+                    if (ContentTypeUtil.IsSupportedContentTypes(httpContext.Response.ContentType))
+                    {
+                        httpContext.Response.ContentLength = null;
+                    }
+
                     ResponseHeaders responseHeader = new ResponseHeaders(httpContext.Response.Headers);
 
                     BrowserLinkMiddleWareUtil.AddToETag(responseHeader, currentPort);
