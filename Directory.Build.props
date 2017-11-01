@@ -1,17 +1,19 @@
 ﻿<Project>
-  <Import Project="version.xml" />
+  <Import Project="version.props" />
+  <Import Project="build\dependencies.props" />
 
   <PropertyGroup>
     <Product>Microsoft Visual Studio</Product>
+    <RepositoryUrl>https://github.com/aspnet/BrowserLink</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)build\Key.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
     <PublicSign Condition="'$(OS)' != 'Windows_NT'">true</PublicSign>
-    <VersionSuffix Condition="'$(VersionSuffix)'!='' AND '$(BuildNumber)' != ''">$(VersionSuffix)-$(BuildNumber)</VersionSuffix>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Internal.AspNetCore.Sdk" PrivateAssets="All" />
+    <PackageReference Include="Internal.AspNetCore.Sdk" PrivateAssets="All" Version="$(InternalAspNetCoreSdkPackageVersion)" />
   </ItemGroup>
 
 </Project>

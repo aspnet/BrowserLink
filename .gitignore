@@ -29,4 +29,3 @@ project.lock.json
 *.ipch
 .vs/
 global.json
-korebuild-lock.txt
