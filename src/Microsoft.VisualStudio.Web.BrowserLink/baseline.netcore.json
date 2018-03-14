@@ -1,0 +1,209 @@
+{
+  "AssemblyIdentity": "Microsoft.VisualStudio.Web.BrowserLink, Version=2.0.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60",
+  "Types": [
+    {
+      "Name": "Microsoft.AspNetCore.Builder.BrowserLinkExtensions",
+      "Visibility": "Public",
+      "Kind": "Class",
+      "Abstract": true,
+      "Static": true,
+      "Sealed": true,
+      "ImplementedInterfaces": [],
+      "Members": [
+        {
+          "Kind": "Method",
+          "Name": "UseBrowserLink",
+          "Parameters": [
+            {
+              "Name": "app",
+              "Type": "Microsoft.AspNetCore.Builder.IApplicationBuilder"
+            }
+          ],
+          "ReturnType": "Microsoft.AspNetCore.Builder.IApplicationBuilder",
+          "Static": true,
+          "Extension": true,
+          "Visibility": "Public",
+          "GenericParameter": []
+        }
+      ],
+      "GenericParameters": []
+    },
+    {
+      "Name": "Microsoft.VisualStudio.Web.BrowserLink.BrowserLinkConstants+MappingDataType",
+      "Visibility": "Public",
+      "Kind": "Enumeration",
+      "Sealed": true,
+      "ImplementedInterfaces": [],
+      "Members": [
+        {
+          "Kind": "Field",
+          "Name": "Unknown",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "0"
+        },
+        {
+          "Kind": "Field",
+          "Name": "BeginContext",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "1"
+        },
+        {
+          "Kind": "Field",
+          "Name": "EndContext",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "2"
+        },
+        {
+          "Kind": "Field",
+          "Name": "RenderedOutputDefinition",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "3"
+        },
+        {
+          "Kind": "Field",
+          "Name": "RenderedOutputRelationship",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "4"
+        },
+        {
+          "Kind": "Field",
+          "Name": "EndOfData",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "5"
+        }
+      ],
+      "GenericParameters": []
+    },
+    {
+      "Name": "Microsoft.VisualStudio.Web.BrowserLink.BrowserLinkConstants+MappingDataValueType",
+      "Visibility": "Public",
+      "Kind": "Enumeration",
+      "Sealed": true,
+      "ImplementedInterfaces": [],
+      "Members": [
+        {
+          "Kind": "Field",
+          "Name": "UnknownValue",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "0"
+        },
+        {
+          "Kind": "Field",
+          "Name": "Int32Value",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "1"
+        },
+        {
+          "Kind": "Field",
+          "Name": "BooleanValue",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "2"
+        },
+        {
+          "Kind": "Field",
+          "Name": "StringValue",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "3"
+        }
+      ],
+      "GenericParameters": []
+    },
+    {
+      "Name": "Microsoft.VisualStudio.Web.BrowserLink.BrowserLinkConstants+MappingDataValue",
+      "Visibility": "Public",
+      "Kind": "Enumeration",
+      "Sealed": true,
+      "ImplementedInterfaces": [],
+      "Members": [
+        {
+          "Kind": "Field",
+          "Name": "SourceStartPosition",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "1"
+        },
+        {
+          "Kind": "Field",
+          "Name": "SourceLength",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "2"
+        },
+        {
+          "Kind": "Field",
+          "Name": "SourceFilePath",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "3"
+        },
+        {
+          "Kind": "Field",
+          "Name": "RenderedPosition",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "4"
+        },
+        {
+          "Kind": "Field",
+          "Name": "RenderedOutputIndex",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "5"
+        },
+        {
+          "Kind": "Field",
+          "Name": "RenderedContent",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "6"
+        },
+        {
+          "Kind": "Field",
+          "Name": "IsLiteral",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "7"
+        },
+        {
+          "Kind": "Field",
+          "Name": "ParentRenderedOutputIndex",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "11"
+        },
+        {
+          "Kind": "Field",
+          "Name": "ChildRenderedOutputIndex",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "12"
+        },
+        {
+          "Kind": "Field",
+          "Name": "RelativeRenderedPosition",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "13"
+        },
+        {
+          "Kind": "Field",
+          "Name": "EndOfDataValues",
+          "Parameters": [],
+          "GenericParameter": [],
+          "Literal": "-1"
+        }
+      ],
+      "GenericParameters": []
+    }
+  ]
+}
