@@ -3,17 +3,17 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
   <PropertyGroup Label="Package Versions">
-    <InternalAspNetCoreSdkPackageVersion>2.1.0-rc1-15774</InternalAspNetCoreSdkPackageVersion>
-    <MicrosoftAspNetCoreHostingAbstractionsPackageVersion>2.1.0-rc1-30613</MicrosoftAspNetCoreHostingAbstractionsPackageVersion>
-    <MicrosoftAspNetCoreHttpAbstractionsPackageVersion>2.1.0-rc1-30613</MicrosoftAspNetCoreHttpAbstractionsPackageVersion>
-    <MicrosoftAspNetCoreHttpExtensionsPackageVersion>2.1.0-rc1-30613</MicrosoftAspNetCoreHttpExtensionsPackageVersion>
-    <MicrosoftAspNetCoreHttpPackageVersion>2.1.0-rc1-30613</MicrosoftAspNetCoreHttpPackageVersion>
-    <MicrosoftAspNetCoreTestingPackageVersion>2.1.0-rc1-30613</MicrosoftAspNetCoreTestingPackageVersion>
-    <MicrosoftExtensionsFileProvidersPhysicalPackageVersion>2.1.0-rc1-30613</MicrosoftExtensionsFileProvidersPhysicalPackageVersion>
+    <InternalAspNetCoreSdkPackageVersion>2.1.0-rtm-15783</InternalAspNetCoreSdkPackageVersion>
+    <MicrosoftAspNetCoreHostingAbstractionsPackageVersion>2.1.0-rtm-30721</MicrosoftAspNetCoreHostingAbstractionsPackageVersion>
+    <MicrosoftAspNetCoreHttpAbstractionsPackageVersion>2.1.0-rtm-30721</MicrosoftAspNetCoreHttpAbstractionsPackageVersion>
+    <MicrosoftAspNetCoreHttpExtensionsPackageVersion>2.1.0-rtm-30721</MicrosoftAspNetCoreHttpExtensionsPackageVersion>
+    <MicrosoftAspNetCoreHttpPackageVersion>2.1.0-rtm-30721</MicrosoftAspNetCoreHttpPackageVersion>
+    <MicrosoftAspNetCoreTestingPackageVersion>2.1.0-rtm-30721</MicrosoftAspNetCoreTestingPackageVersion>
+    <MicrosoftExtensionsFileProvidersPhysicalPackageVersion>2.1.0-rtm-30721</MicrosoftExtensionsFileProvidersPhysicalPackageVersion>
     <MicrosoftNETCoreApp20PackageVersion>2.0.0</MicrosoftNETCoreApp20PackageVersion>
-    <MicrosoftNETCoreApp21PackageVersion>2.1.0-rc1-26419-02</MicrosoftNETCoreApp21PackageVersion>
+    <MicrosoftNETCoreApp21PackageVersion>2.1.0-rtm-26502-02</MicrosoftNETCoreApp21PackageVersion>
     <MicrosoftNETTestSdkPackageVersion>15.6.1</MicrosoftNETTestSdkPackageVersion>
-    <NETStandardLibrary20PackageVersion>2.0.1</NETStandardLibrary20PackageVersion>
+    <NETStandardLibrary20PackageVersion>2.0.3</NETStandardLibrary20PackageVersion>
     <XunitPackageVersion>2.3.1</XunitPackageVersion>
     <XunitRunnerVisualStudioPackageVersion>2.4.0-beta.1.build3945</XunitRunnerVisualStudioPackageVersion>
   </PropertyGroup>
