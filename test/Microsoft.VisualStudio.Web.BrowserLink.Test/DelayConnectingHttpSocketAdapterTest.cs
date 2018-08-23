@@ -349,7 +349,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
 
             _createdAdapter = new MockHttpSocketAdapter();
 
-            return null;
+            return Task.FromResult((IHttpSocketAdapter)null);
         }
 
         private Task HandleAsciiResponse(byte[] buffer, int offset, int count)
