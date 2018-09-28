@@ -292,7 +292,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             TaskAssert.NotCompleted(writeTask, "Should be waiting for server to respond");
 
             // Act II - Wait for the request to time out
-            System.Threading.Thread.Sleep(1100);
+            writeTask.Wait(2000);
 
             // Assert
             TaskAssert.Completed(writeTask, "Write should complete when server fails to respond");

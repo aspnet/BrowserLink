@@ -48,7 +48,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
                 ThrowFailure(
                     task.Exception,
                     GetMethodFailureMessage(nameof(NotFaulted)),
-                    FormatMessage(task.Exception), 
+                    FormatMessage(task.Exception),
                     FormatMessage(messageFormat, args));
             }
         }
@@ -81,15 +81,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
         {
             exception = UnwrapException(exception);
 
-            // TODO: Add this condition back with the right exception type
-            //if (exception is AssertFailedException)
-            //{
-            //    return null;
-            //}
-            //else
-            //{
-                return String.Format("{0}: {1}.", exception.GetType().Name, exception.Message);
-            //}
+            return exception.ToString();
         }
 
         private static string FormatMessage(string messageFormat, params object[] messageArgs)
@@ -113,22 +105,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
         {
             string failureMessage = String.Join(" ", failureMessages.Where(x => !String.IsNullOrWhiteSpace(x)));
 
-            if (exception != null)
-            {
-                exception = UnwrapException(exception);
-
-                // TODO: Add this code back with the right exception type
-                //if (exception is AssertFailedException)
-                //{
-                //    throw exception;
-                //}
-
-                //throw new AssertFailedException(failureMessage, exception);
-            }
-            else
-            {
-                //throw new AssertFailedException(failureMessage);
-            }
+            Assert.True(false, failureMessage);
         }
 
         private static Exception UnwrapException(Exception exception)
