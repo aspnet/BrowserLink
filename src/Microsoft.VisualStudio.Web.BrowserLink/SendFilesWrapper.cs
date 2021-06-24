@@ -5,13 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 
-
 namespace Microsoft.VisualStudio.Web.BrowserLink
 {
     internal class SendFilesWrapper : IHttpResponseBodyFeature
     {
-        private HttpResponse _response;
-        private IHttpResponseBodyFeature _wrapped;
+        private readonly HttpResponse _response;
+        private readonly IHttpResponseBodyFeature _wrapped;
 
         internal SendFilesWrapper(IHttpResponseBodyFeature wrapped, HttpResponse response)
         {
@@ -19,18 +18,21 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             _response = response;
         }
 
-        public Stream Stream => _wrapped.Stream;
+        public Stream Stream => _wrapped?.Stream;
 
-        public PipeWriter Writer => _wrapped.Writer;
+        public PipeWriter Writer => _wrapped?.Writer;
 
-        public Task CompleteAsync()
+        public async Task CompleteAsync()
         {
-            return _wrapped.CompleteAsync();
+            if (_wrapped != null)
+            {
+                await _wrapped.CompleteAsync();
+            }
         }
 
         public void DisableBuffering()
         {
-            _wrapped.DisableBuffering();
+            _wrapped?.DisableBuffering();
         }
 
         public async Task SendFileAsync(string path, long offset, long? count, CancellationToken cancellationToken = default)
@@ -51,9 +53,12 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
             }
         }
 
-        public Task StartAsync(CancellationToken cancellationToken = default)
+        public async Task StartAsync(CancellationToken cancellationToken = default)
         {
-            return _wrapped.StartAsync(cancellationToken);
+            if (_wrapped != null)
+            {
+                await _wrapped.StartAsync(cancellationToken);
+            }
         }
     }
 }
