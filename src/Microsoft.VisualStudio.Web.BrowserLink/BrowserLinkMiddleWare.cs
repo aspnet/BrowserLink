@@ -109,8 +109,8 @@ namespace Microsoft.VisualStudio.Web.BrowserLink
                     return StaticTaskResult.True;
                 });
 
-                IHttpSendFileFeature originalSendFile = httpContext.Features.Get<IHttpSendFileFeature>();
-                httpContext.Features.Set<IHttpSendFileFeature>(new SendFilesWrapper(originalSendFile, httpContext.Response));
+                IHttpResponseBodyFeature originalSendFile = httpContext.Features.Get<IHttpResponseBodyFeature>();
+                httpContext.Features.Set<IHttpResponseBodyFeature>(new SendFilesWrapper(originalSendFile, httpContext.Response));
 
                 using (AddPageExecutionListenerFeatureTo(httpContext, requestId))
                 {

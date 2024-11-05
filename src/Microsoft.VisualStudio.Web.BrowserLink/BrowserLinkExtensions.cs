@@ -59,7 +59,7 @@ namespace Microsoft.AspNetCore.Builder
 
         private static bool GetApplicationBasePath(IApplicationBuilder app, out string applicationBasePath)
         {
-            IHostingEnvironment hostingEnvironment = app.ApplicationServices.GetService(typeof(IHostingEnvironment)) as IHostingEnvironment;
+            IWebHostEnvironment hostingEnvironment = app.ApplicationServices.GetService(typeof(IWebHostEnvironment)) as IWebHostEnvironment;
 
             if (hostingEnvironment != null)
             {

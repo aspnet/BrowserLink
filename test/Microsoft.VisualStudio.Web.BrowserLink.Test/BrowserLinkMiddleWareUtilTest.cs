@@ -352,7 +352,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             BrowserLinkMiddleWareUtil.FilterRequestHeader(requestHeader, connectionString);
 
             // Assert
-            Assert.Null(requestHeader.IfNoneMatch);
+            Assert.Equal(0, requestHeader.IfNoneMatch.Count);
             Assert.Null(requestHeader.IfModifiedSince);
         }
 
@@ -372,7 +372,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             BrowserLinkMiddleWareUtil.FilterRequestHeader(requestHeader, connectionString);
 
             // Assert
-            Assert.Null(requestHeader.IfNoneMatch);
+            Assert.Equal(0, requestHeader.IfNoneMatch.Count);
             Assert.Null(requestHeader.IfModifiedSince);
         }
 
@@ -392,7 +392,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             BrowserLinkMiddleWareUtil.FilterRequestHeader(requestHeader, connectionString);
 
             // Assert
-            Assert.Null(requestHeader.IfNoneMatch);
+            Assert.Equal(0, requestHeader.IfNoneMatch.Count);
             Assert.Null(requestHeader.IfModifiedSince);
         }
 
@@ -412,7 +412,7 @@ namespace Microsoft.VisualStudio.Web.BrowserLink.Test
             BrowserLinkMiddleWareUtil.FilterRequestHeader(requestHeader, connectionString);
 
             // Assert
-            Assert.Null(requestHeader.IfNoneMatch);
+            Assert.Equal(0, requestHeader.IfNoneMatch.Count);
             Assert.Null(requestHeader.IfModifiedSince);
         }
     }
