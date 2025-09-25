@@ -1,0 +1,8 @@
+schemaVersion: 0.0.1
+isProduction: true
+accountableOwners:
+  service: 1da6e6ed-1763-4aa5-9621-50b646e6a862
+routing:
+  defaultAreaPath:
+    org: devdiv
+    path: DevDiv\NET Developer Experience\Web\Browser Link
